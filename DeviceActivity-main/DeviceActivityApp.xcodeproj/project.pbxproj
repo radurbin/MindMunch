@@ -11,6 +11,7 @@
 		00BE9BCB2C4FBAB800EB3427 /* QuizletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC82C4FB9E300EB3427 /* QuizletViewModel.swift */; };
 		00BE9BCC2C4FBAC200EB3427 /* Flashcard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC62C4FB9CD00EB3427 /* Flashcard.swift */; };
 		00BE9BD32C50495100EB3427 /* LimitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BD22C50495100EB3427 /* LimitsView.swift */; };
+		00BE9BD72C504BEF00EB3427 /* LimitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BD62C504BEF00EB3427 /* LimitsViewModel.swift */; };
 		C5F7A79D2A80209E009DECF9 /* DeviceActivityApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */; };
 		C5F7A79F2A80209E009DECF9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7A79E2A80209E009DECF9 /* ContentView.swift */; };
 		C5F7A7A12A80209E009DECF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5F7A7A02A80209E009DECF9 /* Assets.xcassets */; };
@@ -68,6 +69,7 @@
 		00BE9BC62C4FB9CD00EB3427 /* Flashcard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flashcard.swift; sourceTree = "<group>"; };
 		00BE9BC82C4FB9E300EB3427 /* QuizletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizletViewModel.swift; sourceTree = "<group>"; };
 		00BE9BD22C50495100EB3427 /* LimitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitsView.swift; sourceTree = "<group>"; };
+		00BE9BD62C504BEF00EB3427 /* LimitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitsViewModel.swift; sourceTree = "<group>"; };
 		C5F7A7992A80209E009DECF9 /* DeviceActivityApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeviceActivityApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityApp.swift; sourceTree = "<group>"; };
 		C5F7A79E2A80209E009DECF9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			children = (
 				00BE9BC62C4FB9CD00EB3427 /* Flashcard.swift */,
 				00BE9BC82C4FB9E300EB3427 /* QuizletViewModel.swift */,
+				00BE9BD62C504BEF00EB3427 /* LimitsViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 			files = (
 				C5F7A79F2A80209E009DECF9 /* ContentView.swift in Sources */,
 				C5F7A7C52A802C59009DECF9 /* ReportsView.swift in Sources */,
+				00BE9BD72C504BEF00EB3427 /* LimitsViewModel.swift in Sources */,
 				C5F7A7C72A802DA9009DECF9 /* DeviceActivityReportAdapter.swift in Sources */,
 				00BE9BCB2C4FBAB800EB3427 /* QuizletViewModel.swift in Sources */,
 				00BE9BD32C50495100EB3427 /* LimitsView.swift in Sources */,
