@@ -49,6 +49,10 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Quiz", systemImage: "questionmark.circle")
                 }
+            LimitsView()
+                .tabItem {
+                    Label("Limits", systemImage: "timer")
+                }
         }
     }
 }
