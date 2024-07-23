@@ -20,7 +20,7 @@ struct ActivitiesView: View {
                 .bold()
                 .font(.title3)
             
-            List(activities.apps) { app in
+            List(sortedApps(activities.apps)) { app in
                 ListItem(app: app)
             }
         }
@@ -35,10 +35,19 @@ struct ActivitiesView: View {
         
         return String(format: "%dh %02dm %02ds", hours, minutes, seconds)
     }
+    
+    // Function to sort apps by duration in descending order
+    private func sortedApps(_ apps: [AppReport]) -> [AppReport] {
+        return apps.sorted { $0.duration > $1.duration }
+    }
 }
 
 struct ActivitiesView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivitiesView(activities: DeviceActivity(duration: 3422, apps: [AppReport(id: "1", name: "Twitter", duration: 600)]))
+        ActivitiesView(activities: DeviceActivity(duration: 3422, apps: [
+            AppReport(id: "1", name: "Twitter", duration: 600),
+            AppReport(id: "2", name: "Facebook", duration: 1200),
+            AppReport(id: "3", name: "Instagram", duration: 300)
+        ]))
     }
 }
