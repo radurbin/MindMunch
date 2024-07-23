@@ -16,7 +16,7 @@ struct ActivitiesView: View {
             Spacer(minLength: 50)
             
             // Display total usage time from DeviceActivity
-            Text("Usage time: \(formatTotalUsageTime(activities.duration))")
+            Text("Usage time: \(formatUsageTime(activities.duration))")
                 .bold()
                 .font(.title3)
             
@@ -26,14 +26,18 @@ struct ActivitiesView: View {
         }
     }
     
-    // Function to format total usage time
-    private func formatTotalUsageTime(_ duration: TimeInterval) -> String {
+    // Function to format usage time based on whether hours is zero or not
+    private func formatUsageTime(_ duration: TimeInterval) -> String {
         let totalSeconds = Int(duration)
         let hours = totalSeconds / 3600
         let minutes = (totalSeconds % 3600) / 60
         let seconds = totalSeconds % 60
         
-        return String(format: "%dh %02dm %02ds", hours, minutes, seconds)
+        if hours > 0 {
+            return String(format: "%dh %02dm %02ds", hours, minutes, seconds)
+        } else {
+            return String(format: "%02dm %02ds", minutes, seconds)
+        }
     }
     
     // Function to sort apps by duration in descending order
