@@ -1,0 +1,13 @@
+# Xcode
+
+build/
+DerivedData/
+.build/
+xcuserdata/
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+.DS_Store
