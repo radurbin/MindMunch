@@ -20,7 +20,7 @@ struct ActivitiesView: View {
                 .bold()
                 .font(.title3)
             
-            List(sortedApps(activities.apps)) { app in
+            List(filteredAndSortedApps(activities.apps)) { app in
                 ListItem(app: app)
             }
         }
@@ -40,9 +40,11 @@ struct ActivitiesView: View {
         }
     }
     
-    // Function to sort apps by duration in descending order
-    private func sortedApps(_ apps: [AppReport]) -> [AppReport] {
-        return apps.sorted { $0.duration > $1.duration }
+    // Function to filter and sort apps by duration in descending order
+    private func filteredAndSortedApps(_ apps: [AppReport]) -> [AppReport] {
+        return apps
+            .filter { $0.duration > 0 }
+            .sorted { $0.duration > $1.duration }
     }
 }
 
@@ -51,7 +53,8 @@ struct ActivitiesView_Previews: PreviewProvider {
         ActivitiesView(activities: DeviceActivity(duration: 3422, apps: [
             AppReport(id: "1", name: "Twitter", duration: 600),
             AppReport(id: "2", name: "Facebook", duration: 1200),
-            AppReport(id: "3", name: "Instagram", duration: 300)
+            AppReport(id: "3", name: "Instagram", duration: 300),
+            AppReport(id: "4", name: "EmptyApp", duration: 0) // This app will be filtered out
         ]))
     }
 }
