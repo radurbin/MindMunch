@@ -17,9 +17,6 @@ struct LimitsView: View {
             Text("Screen Time Limits")
                 .font(.largeTitle)
                 .padding()
-            Text("This is the placeholder for setting screen time limits.")
-                .font(.title2)
-                .padding()
             
             Button(action: {
                 isPickerPresented = true
@@ -31,6 +28,26 @@ struct LimitsView: View {
                     .cornerRadius(8)
             }
             .familyActivityPicker(isPresented: $isPickerPresented, selection: $viewModel.activitySelection)
+            .padding()
+            
+            Text("Selected Apps + Categories")
+                .font(.title3)
+                .padding()
+            
+            List {
+                Section {
+                    ForEach(Array(viewModel.activitySelection.applicationTokens), id: \.self) { token in
+                        HStack {
+                            Label(token)
+                                .font(.body)
+                        }
+                    }
+                    ForEach(Array(viewModel.activitySelection.categoryTokens), id: \.self) { token in
+                        Label(token)
+                            .labelStyle(.iconOnly)
+                    }
+                }
+            }
             
             Spacer()
         }
