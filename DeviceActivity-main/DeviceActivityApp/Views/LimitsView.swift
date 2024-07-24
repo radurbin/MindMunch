@@ -12,6 +12,7 @@ import ManagedSettings
 struct LimitsView: View {
     @StateObject private var viewModel = LimitsViewModel()
     @State private var isPickerPresented = false
+    @State private var isAddLimitPresented = false
     
     var body: some View {
         VStack {
@@ -52,9 +53,35 @@ struct LimitsView: View {
                             .labelStyle(.iconOnly)
                     }
                 }
+                
+                Section(header: Text("App Limits")) {
+                    ForEach(viewModel.appLimits) { limit in
+                        VStack(alignment: .leading) {
+                            Text("Hours: \(limit.hours), Minutes: \(limit.minutes)")
+                                .font(.headline)
+                            ForEach(Array(limit.selection.applicationTokens), id: \.self) { token in
+                                Label(token)
+                                    .font(.subheadline)
+                            }
+                        }
+                    }
+                }
             }
             
             Spacer()
+            
+            Button(action: {
+                isAddLimitPresented = true
+            }) {
+                Image(systemName: "plus.circle.fill")
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(.purple)
+            }
+            .padding()
+            .sheet(isPresented: $isAddLimitPresented) {
+                AddLimitView(isPresented: $isAddLimitPresented, limitsViewModel: viewModel)
+            }
         }
         .padding()
     }
