@@ -15,12 +15,14 @@ struct AppLimit: Identifiable, Codable {
     let selection: FamilyActivitySelection
     let hours: Int
     let minutes: Int
+    var remainingTime: TimeInterval
     
     init(id: UUID = UUID(), selection: FamilyActivitySelection, hours: Int, minutes: Int) {
         self.id = id
         self.selection = selection
         self.hours = hours
         self.minutes = minutes
+        self.remainingTime = TimeInterval(hours * 3600 + minutes * 60)
     }
 }
 
@@ -48,11 +50,45 @@ class LimitsViewModel: ObservableObject {
     private let lockStateKey = "isLocked"
     private let appLimitsKey = "appLimits"
     private let store = ManagedSettingsStore()
+    private var timer: Timer?
     
     init() {
         self.isLocked = UserDefaults.standard.bool(forKey: lockStateKey)
         loadSelection()
         loadAppLimits()
+        startTimer()
+    }
+    
+    func startTimer() {
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+            self?.updateAppUsage()
+        }
+    }
+    
+    func updateAppUsage() {
+        // Update the remaining time for each app limit
+        for (index, limit) in appLimits.enumerated() {
+            // Assume we have a method to get the actual usage time for each app
+            let usageTime = getAppUsage(for: limit.selection)
+            appLimits[index].remainingTime -= usageTime
+            if appLimits[index].remainingTime <= 0 {
+                appLimits[index].remainingTime = 0
+                lockApps(for: limit.selection)
+            }
+        }
+        saveAppLimits()
+    }
+    
+    func getAppUsage(for selection: FamilyActivitySelection) -> TimeInterval {
+        // Implement the logic to get the actual usage time for the selected apps
+        return 60 // Placeholder: Return 1 minute of usage
+    }
+    
+    func lockApps(for selection: FamilyActivitySelection) {
+        store.shield.applications = selection.applicationTokens.isEmpty ? nil : selection.applicationTokens
+        store.shield.applicationCategories = selection.categoryTokens.isEmpty ? nil : ShieldSettings.ActivityCategoryPolicy.specific(selection.categoryTokens)
+        print("Apps locked.")
     }
     
     func saveSelection() {

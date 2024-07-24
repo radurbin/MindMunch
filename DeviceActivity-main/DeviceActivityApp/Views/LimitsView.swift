@@ -59,6 +59,8 @@ struct LimitsView: View {
                         VStack(alignment: .leading) {
                             Text("Hours: \(limit.hours), Minutes: \(limit.minutes)")
                                 .font(.headline)
+                            Text("Remaining Time: \(formatTime(limit.remainingTime))")
+                                .font(.subheadline)
                             ForEach(Array(limit.selection.applicationTokens), id: \.self) { token in
                                 Label(token)
                                     .font(.subheadline)
@@ -84,6 +86,13 @@ struct LimitsView: View {
             }
         }
         .padding()
+    }
+    
+    private func formatTime(_ time: TimeInterval) -> String {
+        let hours = Int(time) / 3600
+        let minutes = (Int(time) % 3600) / 60
+        let seconds = Int(time) % 60
+        return String(format: "%02dh %02dm %02ds", hours, minutes, seconds)
     }
 }
 
