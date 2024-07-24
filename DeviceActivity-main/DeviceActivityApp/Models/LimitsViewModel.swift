@@ -16,8 +16,9 @@ class LimitsViewModel: ObservableObject {
             saveSelection()
         }
     }
-    @Published var isLocked = false {
+    @Published var isLocked: Bool {
         didSet {
+            saveLockState()
             setShieldRestrictions()
         }
     }
@@ -25,9 +26,11 @@ class LimitsViewModel: ObservableObject {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private let userDefaultsKey = "familyActivitySelection"
+    private let lockStateKey = "isLocked"
     private let store = ManagedSettingsStore()
     
     init() {
+        self.isLocked = UserDefaults.standard.bool(forKey: lockStateKey)
         loadSelection()
     }
     
@@ -55,6 +58,11 @@ class LimitsViewModel: ObservableObject {
         } else {
             print("Failed to decode selection from UserDefaults.")
         }
+    }
+    
+    func saveLockState() {
+        UserDefaults.standard.set(isLocked, forKey: lockStateKey)
+        print("Lock state saved to UserDefaults.")
     }
     
     func setShieldRestrictions() {
