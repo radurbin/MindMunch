@@ -101,7 +101,11 @@ struct LimitsView: View {
         let hours = Int(time) / 3600
         let minutes = (Int(time) % 3600) / 60
         let seconds = Int(time) % 60
-        return String(format: "%02dh %02dm %02ds", hours, minutes, seconds)
+        if hours > 0 {
+            return String(format: "%02dh %02dm %02ds", hours, minutes, seconds)
+        } else {
+            return String(format: "%02dm %02ds", minutes, seconds)
+        }
     }
 }
 

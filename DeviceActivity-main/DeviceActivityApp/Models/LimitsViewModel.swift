@@ -68,18 +68,27 @@ class LimitsViewModel: ObservableObject {
     }
     
     func updateAppUsage() {
+        var needsUpdate = false
         for (index, limit) in appLimits.enumerated() {
             let usageTime = getAppUsage(for: limit.selection)
-            appLimits[index].remainingTime -= usageTime
+            if appLimits[index].remainingTime > 0 {
+                appLimits[index].remainingTime -= usageTime
+            }
             if appLimits[index].remainingTime <= 0 {
                 appLimits[index].remainingTime = 0
-                lockApps(for: limit.selection)
+                needsUpdate = true
+                unlockApps(for: limit.selection) // Unlock the app if the limit time is up
             }
         }
-        saveAppLimits()
+        if needsUpdate {
+            saveAppLimits()
+            setShieldRestrictions()
+        }
     }
     
     func getAppUsage(for selection: FamilyActivitySelection) -> TimeInterval {
+        // Dummy implementation for demo purposes.
+        // Replace this with real usage tracking.
         return 60
     }
     
@@ -163,7 +172,7 @@ class LimitsViewModel: ObservableObject {
             print("Apps unlocked.")
         }
         
-        // Unlock apps that are no longer in the appLimits
+        // Update the shield restrictions based on app limits
         let allSelectedTokens = appLimits.flatMap { $0.selection.applicationTokens }
         let allSelectedCategories = appLimits.flatMap { $0.selection.categoryTokens }
         
