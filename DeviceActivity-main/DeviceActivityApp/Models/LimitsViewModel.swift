@@ -7,6 +7,7 @@
 
 import Foundation
 import FamilyControls
+import ManagedSettings
 import Combine
 
 class LimitsViewModel: ObservableObject {
@@ -15,10 +16,16 @@ class LimitsViewModel: ObservableObject {
             saveSelection()
         }
     }
+    @Published var isLocked = false {
+        didSet {
+            setShieldRestrictions()
+        }
+    }
     
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private let userDefaultsKey = "familyActivitySelection"
+    private let store = ManagedSettingsStore()
     
     init() {
         loadSelection()
@@ -47,6 +54,18 @@ class LimitsViewModel: ObservableObject {
             print("Selection loaded from UserDefaults.")
         } else {
             print("Failed to decode selection from UserDefaults.")
+        }
+    }
+    
+    func setShieldRestrictions() {
+        if isLocked {
+            store.shield.applications = activitySelection.applicationTokens.isEmpty ? nil : activitySelection.applicationTokens
+            store.shield.applicationCategories = activitySelection.categoryTokens.isEmpty ? nil : ShieldSettings.ActivityCategoryPolicy.specific(activitySelection.categoryTokens)
+            print("Apps locked.")
+        } else {
+            store.shield.applications = nil
+            store.shield.applicationCategories = nil
+            print("Apps unlocked.")
         }
     }
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FamilyControls
+import ManagedSettings
 
 struct LimitsView: View {
     @StateObject private var viewModel = LimitsViewModel()
@@ -29,6 +30,10 @@ struct LimitsView: View {
             }
             .familyActivityPicker(isPresented: $isPickerPresented, selection: $viewModel.activitySelection)
             .padding()
+            
+            Toggle("Lock/Unlock Apps", isOn: $viewModel.isLocked)
+                .padding()
+                .toggleStyle(SwitchToggleStyle(tint: .red))
             
             Text("Selected Apps + Categories")
                 .font(.title3)
