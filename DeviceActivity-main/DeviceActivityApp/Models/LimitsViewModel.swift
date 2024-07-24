@@ -41,7 +41,6 @@ class LimitsViewModel: ObservableObject {
     @Published var appLimits: [AppLimit] = [] {
         didSet {
             saveAppLimits()
-            setShieldRestrictions()
         }
     }
     
@@ -70,26 +69,18 @@ class LimitsViewModel: ObservableObject {
     func updateAppUsage() {
         var needsUpdate = false
         for (index, limit) in appLimits.enumerated() {
-            let usageTime = getAppUsage(for: limit.selection)
             if appLimits[index].remainingTime > 0 {
-                appLimits[index].remainingTime -= usageTime
-            }
-            if appLimits[index].remainingTime <= 0 {
-                appLimits[index].remainingTime = 0
+                appLimits[index].remainingTime -= 60
                 needsUpdate = true
-                unlockApps(for: limit.selection) // Unlock the app if the limit time is up
+                if appLimits[index].remainingTime <= 0 {
+                    appLimits[index].remainingTime = 0
+                    lockApps(for: limit.selection)
+                }
             }
         }
         if needsUpdate {
             saveAppLimits()
-            setShieldRestrictions()
         }
-    }
-    
-    func getAppUsage(for selection: FamilyActivitySelection) -> TimeInterval {
-        // Dummy implementation for demo purposes.
-        // Replace this with real usage tracking.
-        return 60
     }
     
     func lockApps(for selection: FamilyActivitySelection) {
@@ -171,13 +162,6 @@ class LimitsViewModel: ObservableObject {
             store.shield.applicationCategories = nil
             print("Apps unlocked.")
         }
-        
-        // Update the shield restrictions based on app limits
-        let allSelectedTokens = appLimits.flatMap { $0.selection.applicationTokens }
-        let allSelectedCategories = appLimits.flatMap { $0.selection.categoryTokens }
-        
-        store.shield.applications = allSelectedTokens.isEmpty ? nil : Set(allSelectedTokens)
-        store.shield.applicationCategories = allSelectedCategories.isEmpty ? nil : ShieldSettings.ActivityCategoryPolicy.specific(Set(allSelectedCategories))
     }
     
     func addAppLimit(selection: FamilyActivitySelection, hours: Int, minutes: Int) {
