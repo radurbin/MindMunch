@@ -66,6 +66,15 @@ struct LimitsView: View {
                                     .font(.subheadline)
                             }
                         }
+                        .swipeActions {
+                            Button(role: .destructive) {
+                                if let index = viewModel.appLimits.firstIndex(where: { $0.id == limit.id }) {
+                                    viewModel.deleteAppLimit(at: index)
+                                }
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
                     }
                 }
             }
