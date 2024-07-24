@@ -41,6 +41,7 @@ class LimitsViewModel: ObservableObject {
     @Published var appLimits: [AppLimit] = [] {
         didSet {
             saveAppLimits()
+            setShieldRestrictions()
         }
     }
     
@@ -86,6 +87,12 @@ class LimitsViewModel: ObservableObject {
         store.shield.applications = selection.applicationTokens.isEmpty ? nil : selection.applicationTokens
         store.shield.applicationCategories = selection.categoryTokens.isEmpty ? nil : ShieldSettings.ActivityCategoryPolicy.specific(selection.categoryTokens)
         print("Apps locked.")
+    }
+    
+    func unlockApps(for selection: FamilyActivitySelection) {
+        store.shield.applications = nil
+        store.shield.applicationCategories = nil
+        print("Apps unlocked.")
     }
     
     func saveSelection() {
@@ -155,6 +162,13 @@ class LimitsViewModel: ObservableObject {
             store.shield.applicationCategories = nil
             print("Apps unlocked.")
         }
+        
+        // Unlock apps that are no longer in the appLimits
+        let allSelectedTokens = appLimits.flatMap { $0.selection.applicationTokens }
+        let allSelectedCategories = appLimits.flatMap { $0.selection.categoryTokens }
+        
+        store.shield.applications = allSelectedTokens.isEmpty ? nil : Set(allSelectedTokens)
+        store.shield.applicationCategories = allSelectedCategories.isEmpty ? nil : ShieldSettings.ActivityCategoryPolicy.specific(Set(allSelectedCategories))
     }
     
     func addAppLimit(selection: FamilyActivitySelection, hours: Int, minutes: Int) {
@@ -163,6 +177,9 @@ class LimitsViewModel: ObservableObject {
     }
     
     func deleteAppLimit(at index: Int) {
-        appLimits.remove(at: index)
+        let limit = appLimits.remove(at: index)
+        unlockApps(for: limit.selection)
+        saveAppLimits()
+        setShieldRestrictions()
     }
 }
