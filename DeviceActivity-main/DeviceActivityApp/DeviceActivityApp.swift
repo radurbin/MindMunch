@@ -9,6 +9,7 @@
 import SwiftUI
 import UIKit
 import UserNotifications
+import BackgroundTasks
 
 @main
 struct DeviceActivityApp: App {
@@ -59,14 +60,21 @@ struct MainTabView: View {
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UNUserNotificationCenter.current().delegate = self
+        BackgroundTaskManager.shared.registerBackgroundTasks()
         return true
     }
     
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        BackgroundTaskManager.shared.scheduleAppUsageUpdate()
+    }
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // Remove notification presentation handler
+        // Handle notification presentation if needed
+        completionHandler([.alert, .sound])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        // Remove notification response handler
+        // Handle notification response if needed
+        completionHandler()
     }
 }
