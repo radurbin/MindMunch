@@ -16,6 +16,11 @@
 		00BE9BEF2C513BD200EB3427 /* AddLimitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BEE2C513BD200EB3427 /* AddLimitViewModel.swift */; };
 		00BE9BF52C5256B700EB3427 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BF42C5256B700EB3427 /* NotificationManager.swift */; };
 		00BE9BF82C525F8600EB3427 /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BF72C525F8600EB3427 /* BackgroundTaskManager.swift */; };
+		00BE9C352C52B1C600EB3427 /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00BE9C342C52B1C600EB3427 /* ManagedSettings.framework */; };
+		00BE9C372C52B1C600EB3427 /* ManagedSettingsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00BE9C362C52B1C600EB3427 /* ManagedSettingsUI.framework */; };
+		00BE9C3A2C52B1C600EB3427 /* ShieldConfigurationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9C392C52B1C600EB3427 /* ShieldConfigurationExtension.swift */; };
+		00BE9C3F2C52B1C600EB3427 /* MyReportExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 00BE9C332C52B1C600EB3427 /* MyReportExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		00BE9C462C52B23200EB3427 /* appIcon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 00BE9C452C52B23200EB3427 /* appIcon.jpg */; };
 		C5F7A79D2A80209E009DECF9 /* DeviceActivityApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */; };
 		C5F7A79F2A80209E009DECF9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7A79E2A80209E009DECF9 /* ContentView.swift */; };
 		C5F7A7A12A80209E009DECF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5F7A7A02A80209E009DECF9 /* Assets.xcassets */; };
@@ -35,6 +40,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		00BE9C3D2C52B1C600EB3427 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5F7A7912A80209E009DECF9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00BE9C322C52B1C600EB3427;
+			remoteInfo = MyReportExtension;
+		};
 		C5F7A7E32A8037A8009DECF9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C5F7A7912A80209E009DECF9 /* Project object */;
@@ -51,6 +63,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				00BE9C3F2C52B1C600EB3427 /* MyReportExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,6 +92,13 @@
 		00BE9BF42C5256B700EB3427 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		00BE9BF62C525B1200EB3427 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		00BE9BF72C525F8600EB3427 /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
+		00BE9C332C52B1C600EB3427 /* MyReportExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MyReportExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		00BE9C342C52B1C600EB3427 /* ManagedSettings.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettings.framework; path = System/Library/Frameworks/ManagedSettings.framework; sourceTree = SDKROOT; };
+		00BE9C362C52B1C600EB3427 /* ManagedSettingsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettingsUI.framework; path = System/Library/Frameworks/ManagedSettingsUI.framework; sourceTree = SDKROOT; };
+		00BE9C392C52B1C600EB3427 /* ShieldConfigurationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldConfigurationExtension.swift; sourceTree = "<group>"; };
+		00BE9C3B2C52B1C600EB3427 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00BE9C3C2C52B1C600EB3427 /* MyReportExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyReportExtension.entitlements; sourceTree = "<group>"; };
+		00BE9C452C52B23200EB3427 /* appIcon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = appIcon.jpg; path = ../../../appIcon.jpg; sourceTree = "<group>"; };
 		C5F7A7992A80209E009DECF9 /* DeviceActivityApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeviceActivityApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityApp.swift; sourceTree = "<group>"; };
 		C5F7A79E2A80209E009DECF9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -103,6 +123,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		00BE9C302C52B1C600EB3427 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00BE9C352C52B1C600EB3427 /* ManagedSettings.framework in Frameworks */,
+				00BE9C372C52B1C600EB3427 /* ManagedSettingsUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C5F7A7962A80209E009DECF9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -131,11 +160,23 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		00BE9C382C52B1C600EB3427 /* MyReportExtension */ = {
+			isa = PBXGroup;
+			children = (
+				00BE9C392C52B1C600EB3427 /* ShieldConfigurationExtension.swift */,
+				00BE9C452C52B23200EB3427 /* appIcon.jpg */,
+				00BE9C3B2C52B1C600EB3427 /* Info.plist */,
+				00BE9C3C2C52B1C600EB3427 /* MyReportExtension.entitlements */,
+			);
+			path = MyReportExtension;
+			sourceTree = "<group>";
+		};
 		C5F7A7902A80209E009DECF9 = {
 			isa = PBXGroup;
 			children = (
 				C5F7A79B2A80209E009DECF9 /* DeviceActivityApp */,
 				C5F7A7DA2A8037A8009DECF9 /* MonitorReport */,
+				00BE9C382C52B1C600EB3427 /* MyReportExtension */,
 				C5F7A7AF2A8021CA009DECF9 /* Frameworks */,
 				C5F7A79A2A80209E009DECF9 /* Products */,
 			);
@@ -146,6 +187,7 @@
 			children = (
 				C5F7A7992A80209E009DECF9 /* DeviceActivityApp.app */,
 				C5F7A7D92A8037A8009DECF9 /* MonitorReport.appex */,
+				00BE9C332C52B1C600EB3427 /* MyReportExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -180,6 +222,8 @@
 			isa = PBXGroup;
 			children = (
 				C5F7A7B02A8021CA009DECF9 /* DeviceActivity.framework */,
+				00BE9C342C52B1C600EB3427 /* ManagedSettings.framework */,
+				00BE9C362C52B1C600EB3427 /* ManagedSettingsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -240,6 +284,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		00BE9C322C52B1C600EB3427 /* MyReportExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00BE9C422C52B1C600EB3427 /* Build configuration list for PBXNativeTarget "MyReportExtension" */;
+			buildPhases = (
+				00BE9C2F2C52B1C600EB3427 /* Sources */,
+				00BE9C302C52B1C600EB3427 /* Frameworks */,
+				00BE9C312C52B1C600EB3427 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyReportExtension;
+			productName = MyReportExtension;
+			productReference = 00BE9C332C52B1C600EB3427 /* MyReportExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C5F7A7982A80209E009DECF9 /* DeviceActivityApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C5F7A7A72A80209E009DECF9 /* Build configuration list for PBXNativeTarget "DeviceActivityApp" */;
@@ -254,6 +315,7 @@
 			);
 			dependencies = (
 				C5F7A7E42A8037A8009DECF9 /* PBXTargetDependency */,
+				00BE9C3E2C52B1C600EB3427 /* PBXTargetDependency */,
 			);
 			name = DeviceActivityApp;
 			productName = DeviceActivityApp;
@@ -284,9 +346,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					00BE9C322C52B1C600EB3427 = {
+						CreatedOnToolsVersion = 15.4;
+					};
 					C5F7A7982A80209E009DECF9 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
@@ -310,11 +375,20 @@
 			targets = (
 				C5F7A7982A80209E009DECF9 /* DeviceActivityApp */,
 				C5F7A7D82A8037A8009DECF9 /* MonitorReport */,
+				00BE9C322C52B1C600EB3427 /* MyReportExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		00BE9C312C52B1C600EB3427 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00BE9C462C52B23200EB3427 /* appIcon.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C5F7A7972A80209E009DECF9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -334,6 +408,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		00BE9C2F2C52B1C600EB3427 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00BE9C3A2C52B1C600EB3427 /* ShieldConfigurationExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C5F7A7952A80209E009DECF9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -373,6 +455,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		00BE9C3E2C52B1C600EB3427 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00BE9C322C52B1C600EB3427 /* MyReportExtension */;
+			targetProxy = 00BE9C3D2C52B1C600EB3427 /* PBXContainerItemProxy */;
+		};
 		C5F7A7E42A8037A8009DECF9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C5F7A7D82A8037A8009DECF9 /* MonitorReport */;
@@ -381,6 +468,69 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		00BE9C402C52B1C600EB3427 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = MyReportExtension/MyReportExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H53TESVT5X;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyReportExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyReportExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rileydurbin.DeviceActivityApp.MyReportExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		00BE9C412C52B1C600EB3427 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = MyReportExtension/MyReportExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H53TESVT5X;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyReportExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyReportExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rileydurbin.DeviceActivityApp.MyReportExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		C5F7A7A52A80209E009DECF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -618,6 +768,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00BE9C422C52B1C600EB3427 /* Build configuration list for PBXNativeTarget "MyReportExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00BE9C402C52B1C600EB3427 /* Debug */,
+				00BE9C412C52B1C600EB3427 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C5F7A7942A80209E009DECF9 /* Build configuration list for PBXProject "DeviceActivityApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
