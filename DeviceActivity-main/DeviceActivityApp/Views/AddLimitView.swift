@@ -20,6 +20,10 @@ struct AddLimitView: View {
             VStack {
                 FamilyActivityPicker(selection: $activitySelection)
                     .padding()
+                    .background(Color(UIColor.systemGroupedBackground))
+                    .cornerRadius(10)
+                    .shadow(radius: 1)
+                    .padding(.bottom, 20)
                 
                 HStack {
                     Text("Hours")
@@ -27,7 +31,10 @@ struct AddLimitView: View {
                         ForEach(0..<24) { hour in
                             Text("\(hour)").tag(hour)
                         }
-                    }.pickerStyle(WheelPickerStyle())
+                    }
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+                    .labelsHidden()
                 }
                 
                 HStack {
@@ -36,7 +43,10 @@ struct AddLimitView: View {
                         ForEach(0..<60) { minute in
                             Text("\(minute)").tag(minute)
                         }
-                    }.pickerStyle(WheelPickerStyle())
+                    }
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+                    .labelsHidden()
                 }
                 
                 Button(action: {
@@ -65,6 +75,7 @@ struct AddLimitView: View {
                 .padding()
             }
             .navigationTitle("New Limit")
+            .padding()
         }
     }
 }
