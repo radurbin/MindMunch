@@ -9,8 +9,10 @@ import SwiftUI
 
 struct LimitsView: View {
     @StateObject var viewModel = LimitsViewModel()
+    @StateObject private var quizViewModel = QuizletViewModel()
     @State private var isPresentingAddLimitView = false
     @State private var confirmLimitID: UUID? = nil
+    @State private var showQuestion: Bool = false
 
     var body: some View {
         NavigationView {
@@ -34,6 +36,8 @@ struct LimitsView: View {
                             if confirmLimitID != limit.id {
                                 Button("Add 15 minutes") {
                                     confirmLimitID = limit.id
+                                    showQuestion = true
+                                    quizViewModel.prepareQuestion()
                                 }
                                 .padding()
                                 .background(Color.blue)
@@ -43,9 +47,30 @@ struct LimitsView: View {
                             }
                         }
                         if confirmLimitID == limit.id {
-                            Text("Dummy text: Are you sure you want to add 15 minutes?")
-                                .padding(.top, 5)
-                            HStack {
+                            if showQuestion, let question = quizViewModel.currentQuestion {
+                                Text(question.term)
+                                    .padding(.top, 5)
+                                ForEach(quizViewModel.options, id: \.self) { option in
+                                    Button(action: {
+                                        quizViewModel.checkAnswer(option)
+                                        if quizViewModel.answerResult?.starts(with: "Correct") == true {
+                                            showQuestion = false
+                                        }
+                                    }) {
+                                        Text(option)
+                                            .padding()
+                                            .background(Color.gray.opacity(0.2))
+                                            .cornerRadius(8)
+                                    }
+                                }
+                                if let result = quizViewModel.answerResult {
+                                    Text(result)
+                                        .font(.headline)
+                                        .foregroundColor(result.starts(with: "Correct") ? .green : .red)
+                                        .padding()
+                                }
+                            }
+                            if !showQuestion {
                                 Button(action: {
                                     if let id = confirmLimitID {
                                         viewModel.extendAppLimit(for: id, by: 15)
@@ -61,7 +86,6 @@ struct LimitsView: View {
                                 }
                                 .padding(.trailing, 5)
                             }
-                            .padding(.top, 5)
                         }
                     }
                 }

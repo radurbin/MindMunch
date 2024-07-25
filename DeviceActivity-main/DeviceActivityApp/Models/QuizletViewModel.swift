@@ -131,7 +131,7 @@ class QuizletViewModel: ObservableObject {
         self.flashcards.append(contentsOf: newFlashcards)
     }
     
-    private func prepareQuestion() {
+    func prepareQuestion() {
         guard !flashcards.isEmpty else { return }
         
         currentQuestion = flashcards.randomElement()
