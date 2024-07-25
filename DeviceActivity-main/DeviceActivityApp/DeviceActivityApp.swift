@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UIKit
 import UserNotifications
 
 @main
@@ -21,7 +22,7 @@ struct DeviceActivityApp: App {
         WindowGroup {
             VStack {
                 if showReports {
-                    MainTabView() // Use the new MainTabView
+                    MainTabView()
                 } else {
                     Loading(text: "Checking permission...")
                 }
@@ -53,6 +54,7 @@ struct MainTabView: View {
         }
     }
 }
+
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

@@ -9,7 +9,6 @@ import Foundation
 import FamilyControls
 import ManagedSettings
 import Combine
-import UserNotifications
 
 struct AppLimit: Identifiable, Codable {
     let id: UUID
@@ -44,7 +43,6 @@ class LimitsViewModel: ObservableObject {
     @Published var appLimits: [AppLimit] = [] {
         didSet {
             saveAppLimits()
-            scheduleNotificationsForLimits()
         }
     }
     
@@ -60,7 +58,6 @@ class LimitsViewModel: ObservableObject {
         self.isLocked = UserDefaults.standard.bool(forKey: lockStateKey)
         loadSelection()
         loadAppLimits()
-        NotificationManager.shared.requestAuthorization()
         startTimer()
     }
     
@@ -82,6 +79,7 @@ class LimitsViewModel: ObservableObject {
                 if appLimits[index].remainingTime <= 0 {
                     appLimits[index].remainingTime = 0
                     lockApps(for: limit.selection)
+                    appLimits[index].startTime = nil // Stop further updates for this limit
                 }
             }
         }
@@ -174,19 +172,13 @@ class LimitsViewModel: ObservableObject {
     func addAppLimit(selection: FamilyActivitySelection, hours: Int, minutes: Int) {
         let newLimit = AppLimit(selection: selection, hours: hours, minutes: minutes)
         appLimits.append(newLimit)
+        NotificationManager.shared.scheduleNotification(for: newLimit)
     }
     
     func deleteAppLimit(at index: Int) {
         let limit = appLimits.remove(at: index)
         unlockApps(for: limit.selection)
         saveAppLimits()
-        setShieldRestrictions()
         NotificationManager.shared.cancelNotification(for: limit)
-    }
-    
-    private func scheduleNotificationsForLimits() {
-        for limit in appLimits {
-            NotificationManager.shared.scheduleNotification(for: limit)
-        }
     }
 }
