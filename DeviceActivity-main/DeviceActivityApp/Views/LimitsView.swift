@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LimitsView: View {
     @StateObject var viewModel = LimitsViewModel()
+    @State private var isPresentingAddLimitView = false
     
     var body: some View {
         NavigationView {
@@ -36,11 +37,14 @@ struct LimitsView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
-                            // Present Add Limit View
+                            isPresentingAddLimitView = true
                         }) {
                             Image(systemName: "plus")
                         }
                     }
+                }
+                .sheet(isPresented: $isPresentingAddLimitView) {
+                    AddLimitView(viewModel: viewModel)
                 }
             }
         }
