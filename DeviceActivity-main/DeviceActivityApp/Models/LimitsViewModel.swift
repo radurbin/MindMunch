@@ -172,13 +172,13 @@ class LimitsViewModel: ObservableObject {
     func addAppLimit(selection: FamilyActivitySelection, hours: Int, minutes: Int) {
         let newLimit = AppLimit(selection: selection, hours: hours, minutes: minutes)
         appLimits.append(newLimit)
-        NotificationManager.shared.scheduleNotification(for: newLimit)
+        // Remove call to schedule notification
     }
     
     func deleteAppLimit(at index: Int) {
         let limit = appLimits.remove(at: index)
         unlockApps(for: limit.selection)
         saveAppLimits()
-        NotificationManager.shared.cancelNotification(for: limit)
+        // Remove call to cancel notification
     }
 }

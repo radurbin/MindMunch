@@ -63,14 +63,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound])
+        // Remove notification presentation handler
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let identifier = response.notification.request.identifier
-        if let limit = LimitsViewModel().appLimits.first(where: { $0.id.uuidString == identifier }) {
-            LimitsViewModel().lockApps(for: limit.selection)
-        }
-        completionHandler()
+        // Remove notification response handler
     }
 }
