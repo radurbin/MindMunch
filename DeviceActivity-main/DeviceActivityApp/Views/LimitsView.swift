@@ -38,13 +38,13 @@ struct LimitsView: View {
                             .background(Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(8)
+                            .background(Rectangle().fill(Color.clear)) // Transparent background to prevent overlap
                         }
                         if confirmLimitID == limit.id {
                             Text("Dummy text: Are you sure you want to add 15 minutes?")
                                 .padding(.top, 5)
                             HStack {
                                 Button(action: {
-                                    print("clicked Confirm")
                                     if let id = confirmLimitID {
                                         viewModel.extendAppLimit(for: id, by: 15)
                                         confirmLimitID = nil
@@ -57,9 +57,11 @@ struct LimitsView: View {
                                         .foregroundColor(.white)
                                         .cornerRadius(8)
                                 }
+                                .background(Rectangle().fill(Color.clear)) // Transparent background to prevent overlap
+                                
                                 Spacer()
+                                
                                 Button(action: {
-                                    print("clicked Cancel")
                                     confirmLimitID = nil
                                 }) {
                                     Text("Cancel")
@@ -69,6 +71,7 @@ struct LimitsView: View {
                                         .foregroundColor(.white)
                                         .cornerRadius(8)
                                 }
+                                .background(Rectangle().fill(Color.clear)) // Transparent background to prevent overlap
                             }
                             .padding(.top, 5)
                         }
