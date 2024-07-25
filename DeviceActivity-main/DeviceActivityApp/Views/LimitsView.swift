@@ -43,24 +43,32 @@ struct LimitsView: View {
                             Text("Dummy text: Are you sure you want to add 15 minutes?")
                                 .padding(.top, 5)
                             HStack {
-                                Button("Confirm") {
+                                Button(action: {
+                                    print("clicked Confirm")
                                     if let id = confirmLimitID {
                                         viewModel.extendAppLimit(for: id, by: 15)
                                         confirmLimitID = nil
                                     }
+                                }) {
+                                    Text("Confirm")
+                                        .padding()
+                                        .frame(maxWidth: .infinity)
+                                        .background(Color.green)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(8)
                                 }
-                                .padding()
-                                .background(Color.green)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
                                 Spacer()
-                                Button("Cancel") {
+                                Button(action: {
+                                    print("clicked Cancel")
                                     confirmLimitID = nil
+                                }) {
+                                    Text("Cancel")
+                                        .padding()
+                                        .frame(maxWidth: .infinity)
+                                        .background(Color.red)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(8)
                                 }
-                                .padding()
-                                .background(Color.red)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
                             }
                             .padding(.top, 5)
                         }
