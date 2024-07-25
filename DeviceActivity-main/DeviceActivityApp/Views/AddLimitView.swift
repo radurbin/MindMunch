@@ -21,26 +21,48 @@ struct AddLimitView: View {
                 FamilyActivityPicker(selection: $activitySelection)
                     .padding()
                 
-                Picker("Hours", selection: $selectedHours) {
-                    ForEach(0..<24) { hour in
-                        Text("\(hour) hours").tag(hour)
-                    }
-                }.pickerStyle(WheelPickerStyle())
+                HStack {
+                    Text("Hours")
+                    Picker("", selection: $selectedHours) {
+                        ForEach(0..<24) { hour in
+                            Text("\(hour)").tag(hour)
+                        }
+                    }.pickerStyle(WheelPickerStyle())
+                }
                 
-                Picker("Minutes", selection: $selectedMinutes) {
-                    ForEach(0..<60) { minute in
-                        Text("\(minute) minutes").tag(minute)
-                    }
-                }.pickerStyle(WheelPickerStyle())
+                HStack {
+                    Text("Minutes")
+                    Picker("", selection: $selectedMinutes) {
+                        ForEach(0..<60) { minute in
+                            Text("\(minute)").tag(minute)
+                        }
+                    }.pickerStyle(WheelPickerStyle())
+                }
                 
-                Button("Save") {
+                Button(action: {
                     viewModel.addAppLimit(selection: activitySelection, hours: selectedHours, minutes: selectedMinutes)
                     presentationMode.wrappedValue.dismiss()
-                }.padding()
+                }) {
+                    Text("Save")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .padding()
                 
-                Button("Cancel") {
+                Button(action: {
                     presentationMode.wrappedValue.dismiss()
-                }.padding()
+                }) {
+                    Text("Cancel")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .padding()
             }
             .navigationTitle("New Limit")
         }
