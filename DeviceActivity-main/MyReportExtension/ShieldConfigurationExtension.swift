@@ -13,15 +13,15 @@ import UIKit
 // The system provides a default appearance for any methods that your subclass doesn't override.
 // Make sure that your class name matches the NSExtensionPrincipalClass in your Info.plist.
 class ShieldConfigurationExtension: ShieldConfigurationDataSource {
-    let title = "MindMunch"
-    let body = "You have restricted usage of this application. Wait for the time limit to end."
+    let title = "Hey, It's MunchTime"
+    let body = "Go to MindMunch to unlock this app."
     
     override func configuration(shielding application: Application) -> ShieldConfiguration {
         // Customize the shield as needed for applications.
         return ShieldConfiguration(
             backgroundBlurStyle: UIBlurEffect.Style.light,
             backgroundColor: UIColor.gray,
-            icon: UIImage(named: "appIcon.jpg"),
+            icon: UIImage(named: "munch.png"),
             title: ShieldConfiguration.Label(text: title, color: .white),
             subtitle: ShieldConfiguration.Label(text: body, color: .white),
             primaryButtonLabel: ShieldConfiguration.Label(text: "Close", color: UIColor.black),
