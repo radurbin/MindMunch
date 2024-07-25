@@ -14,6 +14,7 @@
 		00BE9BD72C504BEF00EB3427 /* LimitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BD62C504BEF00EB3427 /* LimitsViewModel.swift */; };
 		00BE9BED2C513B6B00EB3427 /* AddLimitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BEC2C513B6B00EB3427 /* AddLimitView.swift */; };
 		00BE9BEF2C513BD200EB3427 /* AddLimitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BEE2C513BD200EB3427 /* AddLimitViewModel.swift */; };
+		00BE9BF52C5256B700EB3427 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BF42C5256B700EB3427 /* NotificationManager.swift */; };
 		C5F7A79D2A80209E009DECF9 /* DeviceActivityApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */; };
 		C5F7A79F2A80209E009DECF9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7A79E2A80209E009DECF9 /* ContentView.swift */; };
 		C5F7A7A12A80209E009DECF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5F7A7A02A80209E009DECF9 /* Assets.xcassets */; };
@@ -74,6 +75,7 @@
 		00BE9BD62C504BEF00EB3427 /* LimitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitsViewModel.swift; sourceTree = "<group>"; };
 		00BE9BEC2C513B6B00EB3427 /* AddLimitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLimitView.swift; sourceTree = "<group>"; };
 		00BE9BEE2C513BD200EB3427 /* AddLimitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLimitViewModel.swift; sourceTree = "<group>"; };
+		00BE9BF42C5256B700EB3427 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		C5F7A7992A80209E009DECF9 /* DeviceActivityApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeviceActivityApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityApp.swift; sourceTree = "<group>"; };
 		C5F7A79E2A80209E009DECF9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				C5F7A79E2A80209E009DECF9 /* ContentView.swift */,
 				C5F7A7A02A80209E009DECF9 /* Assets.xcassets */,
 				C5F7A7A22A80209E009DECF9 /* Preview Content */,
+				00BE9BF42C5256B700EB3427 /* NotificationManager.swift */,
 			);
 			path = DeviceActivityApp;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				C5F7A7C52A802C59009DECF9 /* ReportsView.swift in Sources */,
 				00BE9BD72C504BEF00EB3427 /* LimitsViewModel.swift in Sources */,
 				C5F7A7C72A802DA9009DECF9 /* DeviceActivityReportAdapter.swift in Sources */,
+				00BE9BF52C5256B700EB3427 /* NotificationManager.swift in Sources */,
 				00BE9BCB2C4FBAB800EB3427 /* QuizletViewModel.swift in Sources */,
 				00BE9BEF2C513BD200EB3427 /* AddLimitViewModel.swift in Sources */,
 				00BE9BD32C50495100EB3427 /* LimitsView.swift in Sources */,

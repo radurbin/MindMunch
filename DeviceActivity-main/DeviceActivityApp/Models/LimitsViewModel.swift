@@ -9,6 +9,7 @@ import Foundation
 import FamilyControls
 import ManagedSettings
 import Combine
+import UserNotifications
 
 struct AppLimit: Identifiable, Codable {
     let id: UUID
@@ -16,6 +17,7 @@ struct AppLimit: Identifiable, Codable {
     let hours: Int
     let minutes: Int
     var remainingTime: TimeInterval
+    var startTime: Date?
     
     init(id: UUID = UUID(), selection: FamilyActivitySelection, hours: Int, minutes: Int) {
         self.id = id
@@ -23,6 +25,7 @@ struct AppLimit: Identifiable, Codable {
         self.hours = hours
         self.minutes = minutes
         self.remainingTime = TimeInterval(hours * 3600 + minutes * 60)
+        self.startTime = Date()
     }
 }
 
@@ -41,6 +44,7 @@ class LimitsViewModel: ObservableObject {
     @Published var appLimits: [AppLimit] = [] {
         didSet {
             saveAppLimits()
+            scheduleNotificationsForLimits()
         }
     }
     
@@ -56,6 +60,7 @@ class LimitsViewModel: ObservableObject {
         self.isLocked = UserDefaults.standard.bool(forKey: lockStateKey)
         loadSelection()
         loadAppLimits()
+        NotificationManager.shared.requestAuthorization()
         startTimer()
     }
     
@@ -69,8 +74,10 @@ class LimitsViewModel: ObservableObject {
     func updateAppUsage() {
         var needsUpdate = false
         for (index, limit) in appLimits.enumerated() {
-            if appLimits[index].remainingTime > 0 {
-                appLimits[index].remainingTime -= 60
+            if let startTime = appLimits[index].startTime {
+                let elapsedTime = Date().timeIntervalSince(startTime)
+                appLimits[index].remainingTime -= elapsedTime
+                appLimits[index].startTime = Date()
                 needsUpdate = true
                 if appLimits[index].remainingTime <= 0 {
                     appLimits[index].remainingTime = 0
@@ -174,5 +181,12 @@ class LimitsViewModel: ObservableObject {
         unlockApps(for: limit.selection)
         saveAppLimits()
         setShieldRestrictions()
+        NotificationManager.shared.cancelNotification(for: limit)
+    }
+    
+    private func scheduleNotificationsForLimits() {
+        for limit in appLimits {
+            NotificationManager.shared.scheduleNotification(for: limit)
+        }
     }
 }

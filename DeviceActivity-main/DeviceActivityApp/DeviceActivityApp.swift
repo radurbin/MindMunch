@@ -7,9 +7,11 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 @main
 struct DeviceActivityApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     @State var showReports = false
     
@@ -17,7 +19,6 @@ struct DeviceActivityApp: App {
     
     var body: some Scene {
         WindowGroup {
-            
             VStack {
                 if showReports {
                     MainTabView() // Use the new MainTabView
@@ -25,17 +26,13 @@ struct DeviceActivityApp: App {
                     Loading(text: "Checking permission...")
                 }
             }.onAppear {
-                
                 Task {
                     showReports = await requestAuthorization.requestFamilyControls(for: .individual)
                     debugPrint("\(showReports)")
                 }
-                
             }
-            
         }
     }
-    
 }
 
 struct MainTabView: View {
@@ -54,5 +51,24 @@ struct MainTabView: View {
                     Label("Limits", systemImage: "timer")
                 }
         }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        UNUserNotificationCenter.current().delegate = self
+        return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let identifier = response.notification.request.identifier
+        if let limit = LimitsViewModel().appLimits.first(where: { $0.id.uuidString == identifier }) {
+            LimitsViewModel().lockApps(for: limit.selection)
+        }
+        completionHandler()
     }
 }
