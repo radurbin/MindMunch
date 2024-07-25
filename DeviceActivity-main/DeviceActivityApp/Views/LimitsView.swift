@@ -11,6 +11,8 @@ struct LimitsView: View {
     @StateObject var viewModel = LimitsViewModel()
     @State private var isPresentingAddLimitView = false
     @State private var confirmLimitID: UUID? = nil
+    @State private var isAddButtonDisabled: Bool = false
+    @State private var isConfirmButtonDisabled: Bool = false
 
     var body: some View {
         NavigationView {
@@ -33,12 +35,14 @@ struct LimitsView: View {
                             Spacer()
                             Button("Add 15 minutes") {
                                 confirmLimitID = limit.id
+                                isAddButtonDisabled = true
                             }
                             .padding()
-                            .background(Color.blue)
+                            .background(isAddButtonDisabled ? Color.gray : Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(8)
-                            .background(Rectangle().fill(Color.clear)) // Transparent background to prevent overlap
+                            .padding(.trailing, 10)
+                            .disabled(isAddButtonDisabled)
                         }
                         if confirmLimitID == limit.id {
                             Text("Dummy text: Are you sure you want to add 15 minutes?")
@@ -48,21 +52,23 @@ struct LimitsView: View {
                                     if let id = confirmLimitID {
                                         viewModel.extendAppLimit(for: id, by: 15)
                                         confirmLimitID = nil
+                                        isAddButtonDisabled = false
                                     }
                                 }) {
                                     Text("Confirm")
                                         .padding()
                                         .frame(maxWidth: .infinity)
-                                        .background(Color.green)
+                                        .background(isConfirmButtonDisabled ? Color.gray : Color.green)
                                         .foregroundColor(.white)
                                         .cornerRadius(8)
                                 }
-                                .background(Rectangle().fill(Color.clear)) // Transparent background to prevent overlap
-                                
-                                Spacer()
-                                
+                                .padding(.trailing, 5)
+                                .disabled(isConfirmButtonDisabled)
+
                                 Button(action: {
                                     confirmLimitID = nil
+                                    isConfirmButtonDisabled = true
+                                    isAddButtonDisabled = false
                                 }) {
                                     Text("Cancel")
                                         .padding()
@@ -71,7 +77,6 @@ struct LimitsView: View {
                                         .foregroundColor(.white)
                                         .cornerRadius(8)
                                 }
-                                .background(Rectangle().fill(Color.clear)) // Transparent background to prevent overlap
                             }
                             .padding(.top, 5)
                         }
