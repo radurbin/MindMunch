@@ -9,18 +9,31 @@ import ManagedSettings
 import ManagedSettingsUI
 import UIKit
 
-// Override the functions below to customize the shields used in various situations.
-// The system provides a default appearance for any methods that your subclass doesn't override.
-// Make sure that your class name matches the NSExtensionPrincipalClass in your Info.plist.
+// Extension for UIColor to handle hex codes
+extension UIColor {
+    convenience init(hex: String) {
+        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+        
+        var rgb: UInt64 = 0
+        Scanner(string: hexSanitized).scanHexInt64(&rgb)
+        
+        let red = CGFloat((rgb >> 16) & 0xFF) / 255.0
+        let green = CGFloat((rgb >> 8) & 0xFF) / 255.0
+        let blue = CGFloat(rgb & 0xFF) / 255.0
+        
+        self.init(red: red, green: green, blue: blue, alpha: 1.0)
+    }
+}
+
 class ShieldConfigurationExtension: ShieldConfigurationDataSource {
-    let title = "Hey, It's MunchTime"
+    let title = "Hey,\nIt's MunchTime"
     let body = "Go to MindMunch to unlock this app."
     
     override func configuration(shielding application: Application) -> ShieldConfiguration {
-        // Customize the shield as needed for applications.
         return ShieldConfiguration(
             backgroundBlurStyle: UIBlurEffect.Style.light,
-            backgroundColor: UIColor.gray,
+            backgroundColor: UIColor(hex: "#051123"),  // Use the hex color here
             icon: UIImage(named: "munch.png"),
             title: ShieldConfiguration.Label(text: title, color: .white),
             subtitle: ShieldConfiguration.Label(text: body, color: .white),
