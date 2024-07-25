@@ -51,6 +51,7 @@ class BackgroundTaskManager {
     }
 }
 
+
 class UpdateAppUsageOperation: Operation {
     private let completion: (Bool) -> Void
     

@@ -26,6 +26,11 @@ struct AppLimit: Identifiable, Codable {
         self.remainingTime = TimeInterval(hours * 3600 + minutes * 60)
         self.startTime = Date()
     }
+
+    mutating func extendTime(by minutes: Int) {
+        remainingTime += TimeInterval(minutes * 60)
+        startTime = Date()
+    }
 }
 
 class LimitsViewModel: ObservableObject {
@@ -172,13 +177,19 @@ class LimitsViewModel: ObservableObject {
     func addAppLimit(selection: FamilyActivitySelection, hours: Int, minutes: Int) {
         let newLimit = AppLimit(selection: selection, hours: hours, minutes: minutes)
         appLimits.append(newLimit)
-        // Remove call to schedule notification
     }
     
     func deleteAppLimit(at index: Int) {
         let limit = appLimits.remove(at: index)
         unlockApps(for: limit.selection)
         saveAppLimits()
-        // Remove call to cancel notification
+    }
+    
+    func extendAppLimit(for id: UUID, by minutes: Int) {
+        if let index = appLimits.firstIndex(where: { $0.id == id }) {
+            appLimits[index].extendTime(by: minutes)
+            unlockApps(for: appLimits[index].selection)
+            saveAppLimits()
+        }
     }
 }

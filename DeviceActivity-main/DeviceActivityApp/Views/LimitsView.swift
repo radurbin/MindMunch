@@ -6,111 +6,43 @@
 //
 
 import SwiftUI
-import FamilyControls
-import ManagedSettings
 
 struct LimitsView: View {
-    @StateObject private var viewModel = LimitsViewModel()
-    @State private var isPickerPresented = false
-    @State private var isAddLimitPresented = false
+    @StateObject var viewModel = LimitsViewModel()
     
     var body: some View {
-        VStack {
-            Text("Screen Time Limits")
-                .font(.largeTitle)
-                .padding()
-            
-            Button(action: {
-                isPickerPresented = true
-            }) {
-                Text("Select apps to limit")
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-            }
-            .familyActivityPicker(isPresented: $isPickerPresented, selection: $viewModel.activitySelection)
-            .padding()
-            
-            Toggle("Lock/Unlock Apps", isOn: $viewModel.isLocked)
-                .padding()
-                .toggleStyle(SwitchToggleStyle(tint: .red))
-            
-            Text("Selected Apps + Categories")
-                .font(.title3)
-                .padding()
-            
-            List {
-                Section {
-                    ForEach(Array(viewModel.activitySelection.applicationTokens), id: \.self) { token in
-                        HStack {
-                            Label(token)
-                                .font(.body)
-                        }
-                    }
-                    ForEach(Array(viewModel.activitySelection.categoryTokens), id: \.self) { token in
-                        Label(token)
-                            .labelStyle(.iconOnly)
-                    }
-                }
-                
-                Section(header: Text("App Limits")) {
+        NavigationView {
+            VStack {
+                List {
                     ForEach(viewModel.appLimits) { limit in
-                        VStack(alignment: .leading) {
-                            Text("Hours: \(limit.hours), Minutes: \(limit.minutes)")
-                                .font(.headline)
-                            Text("Remaining Time: \(formatTime(limit.remainingTime))")
-                                .font(.subheadline)
-                            ForEach(Array(limit.selection.applicationTokens), id: \.self) { token in
-                                Label(token)
-                                    .font(.subheadline)
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("Limit: \(limit.hours)h \(limit.minutes)m")
+                                Text("Remaining: \(Int(limit.remainingTime) / 3600)h \(Int(limit.remainingTime) % 3600 / 60)m")
+                            }
+                            Spacer()
+                            Button("Add 15 minutes") {
+                                viewModel.extendAppLimit(for: limit.id, by: 15)
                             }
                         }
-                        .swipeActions {
-                            Button(role: .destructive) {
-                                if let index = viewModel.appLimits.firstIndex(where: { $0.id == limit.id }) {
-                                    viewModel.deleteAppLimit(at: index)
-                                }
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
+                    }
+                    .onDelete { indexSet in
+                        indexSet.forEach { index in
+                            viewModel.deleteAppLimit(at: index)
+                        }
+                    }
+                }
+                .navigationTitle("Limits")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            // Present Add Limit View
+                        }) {
+                            Image(systemName: "plus")
                         }
                     }
                 }
             }
-            
-            Spacer()
-            
-            Button(action: {
-                isAddLimitPresented = true
-            }) {
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(.purple)
-            }
-            .padding()
-            .sheet(isPresented: $isAddLimitPresented) {
-                AddLimitView(isPresented: $isAddLimitPresented, limitsViewModel: viewModel)
-            }
         }
-        .padding()
-    }
-    
-    private func formatTime(_ time: TimeInterval) -> String {
-        let hours = Int(time) / 3600
-        let minutes = (Int(time) % 3600) / 60
-        let seconds = Int(time) % 60
-        if hours > 0 {
-            return String(format: "%02dh %02dm %02ds", hours, minutes, seconds)
-        } else {
-            return String(format: "%02dm %02ds", minutes, seconds)
-        }
-    }
-}
-
-struct LimitsView_Previews: PreviewProvider {
-    static var previews: some View {
-        LimitsView()
     }
 }
