@@ -22,6 +22,7 @@ class QuizletViewModel: ObservableObject {
             saveURLToUserDefaults()
         }
     }
+    @Published var questionAnswered = false
     
     private let baseUrl = "https://quizlet.com/webapi/3.4/studiable-item-documents"
     private var setId = ""
@@ -144,24 +145,22 @@ class QuizletViewModel: ObservableObject {
             }
             self.options = options.shuffled()
             self.answerResult = nil
+            self.questionAnswered = false
         }
     }
     
     func checkAnswer(_ selectedAnswer: String) {
+        guard !questionAnswered else { return }
+        
         if selectedAnswer == currentQuestion?.definition {
             correctAnswers += 1
             answerResult = "Correct!"
-            nextQuestion()
         } else {
             incorrectAnswers += 1
             answerResult = "Incorrect! The correct answer was: \(currentQuestion?.definition ?? "")"
-            nextQuestion()
         }
-    }
-    
-    private func nextQuestion() {
-        questionNumber += 1
-        prepareQuestion()
+        
+        questionAnswered = true
     }
     
     private func saveURLToUserDefaults() {

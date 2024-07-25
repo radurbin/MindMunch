@@ -53,7 +53,7 @@ struct LimitsView: View {
                                 ForEach(quizViewModel.options, id: \.self) { option in
                                     Button(action: {
                                         quizViewModel.checkAnswer(option)
-                                        if quizViewModel.answerResult?.starts(with: "Correct") == true {
+                                        if quizViewModel.answerResult?.starts(with: "Correct") == true || quizViewModel.answerResult?.starts(with: "Incorrect") == true {
                                             showQuestion = false
                                         }
                                     }) {
