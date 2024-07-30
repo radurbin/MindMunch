@@ -38,6 +38,7 @@ struct LimitItemView: View {
                         quizViewModel.prepareQuestion()
                         quizViewModel.answerResult = nil // Reset answer result
                         quizViewModel.questionAnswered = false // Reset question answered state
+                        quizViewModel.correctAnswersInSession = 0 // Reset session correct answers
                         isShowingQuiz = true
                     }
                     .padding()
@@ -72,13 +73,14 @@ struct LimitItemView: View {
                         .padding(.top, 5)
                     }
                 }
-                if quizViewModel.answerResult?.starts(with: "Correct") == true {
+                if quizViewModel.correctAnswersInSession >= 3 {
                     Button(action: {
                         if let id = confirmLimitID {
                             viewModel.extendAppLimit(for: id, by: 15)
                             confirmLimitID = nil
                             quizViewModel.answerResult = nil
                             quizViewModel.questionAnswered = false // Reset question answered state
+                            quizViewModel.correctAnswersInSession = 0 // Reset session correct answers
                         }
                     }) {
                         Text("Confirm")
@@ -118,8 +120,15 @@ struct QuizPopupView: View {
                             print("Selected answer: \(option)") // Log the selected answer
                             quizViewModel.checkAnswer(option)
                             if quizViewModel.answerResult?.starts(with: "Correct") == true {
-                                showQuestion = false // Hide question after correct answer
-                                isShowingQuiz = false
+                                quizViewModel.correctAnswersInSession += 1
+                                if quizViewModel.correctAnswersInSession >= 3 {
+                                    showQuestion = false
+                                    isShowingQuiz = false
+                                } else {
+                                    quizViewModel.prepareQuestion() // Show another question after correct answer
+                                    quizViewModel.answerResult = nil // Reset the result to display the new question
+                                    quizViewModel.questionAnswered = false // Reset question answered state
+                                }
                             }
                         }) {
                             Text(option)

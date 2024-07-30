@@ -23,6 +23,7 @@ class QuizletViewModel: ObservableObject {
         }
     }
     @Published var questionAnswered = false
+    @Published var correctAnswersInSession = 0 // Track correct answers in the current session
     
     private let baseUrl = "https://quizlet.com/webapi/3.4/studiable-item-documents"
     private var setId = ""
