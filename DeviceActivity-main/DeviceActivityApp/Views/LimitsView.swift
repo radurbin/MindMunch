@@ -13,6 +13,7 @@ struct LimitsView: View {
     @State private var isPresentingAddLimitView = false
     @State private var confirmLimitID: UUID? = nil
     @State private var showQuestion: Bool = false
+    @State private var timer: Timer?
 
     var body: some View {
         NavigationView {
@@ -29,7 +30,7 @@ struct LimitsView: View {
                                     Label(appToken) // Replace with actual app name
                                         .font(.headline)
                                     Text("Limit: \(limit.hours)h \(limit.minutes)m")
-                                    Text("Remaining: \(Int(limit.remainingTime) / 3600)h \(Int(limit.remainingTime) % 3600 / 60)m")
+                                    Text("Remaining: \(Int(limit.remainingTime) / 3600)h \(Int(limit.remainingTime) % 3600 / 60)m \(Int(limit.remainingTime) % 60)s")
                                 }
                             }
                             Spacer()
@@ -108,6 +109,24 @@ struct LimitsView: View {
             .sheet(isPresented: $isPresentingAddLimitView) {
                 AddLimitView(viewModel: viewModel)
             }
+            .onAppear {
+                startTimer()
+            }
+            .onDisappear {
+                stopTimer()
+            }
         }
+    }
+
+    private func startTimer() {
+        stopTimer()
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            viewModel.objectWillChange.send()
+        }
+    }
+
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
