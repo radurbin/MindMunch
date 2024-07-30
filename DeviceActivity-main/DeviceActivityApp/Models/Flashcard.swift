@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Flashcard: Identifiable {
+struct Flashcard: Identifiable, Codable {
     let id: Int
     let term: String
     let definition: String

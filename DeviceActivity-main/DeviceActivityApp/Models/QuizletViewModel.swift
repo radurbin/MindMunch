@@ -17,22 +17,36 @@ class QuizletViewModel: ObservableObject {
     @Published var questionNumber = 1
     @Published var correctAnswers = 0
     @Published var incorrectAnswers = 0
+    @Published var correctAnswersInSession = 0 // Track correct answers in the current session
     @Published var quizletURL: String {
         didSet {
             saveURLToUserDefaults()
+            fetchFlashcardsIfNeeded()
         }
     }
     @Published var questionAnswered = false
-    @Published var correctAnswersInSession = 0 // Track correct answers in the current session
     
     private let baseUrl = "https://quizlet.com/webapi/3.4/studiable-item-documents"
     private var setId = ""
+    private let userDefaultsKey = "quizletFlashcards"
+    private let lastUpdateKey = "lastUpdateTimestamp"
     
     init() {
         self.quizletURL = UserDefaults.standard.string(forKey: "quizletURL") ?? ""
         if !quizletURL.isEmpty {
-            fetchFlashcards(from: quizletURL)
+            fetchFlashcardsIfNeeded()
         }
+    }
+    
+    private func fetchFlashcardsIfNeeded() {
+        if let savedData = UserDefaults.standard.data(forKey: userDefaultsKey) {
+            if let decodedFlashcards = try? JSONDecoder().decode([Flashcard].self, from: savedData) {
+                self.flashcards = decodedFlashcards
+                prepareQuestion()
+                return
+            }
+        }
+        fetchFlashcards(from: quizletURL)
     }
     
     func fetchFlashcards(from url: String) {
@@ -44,6 +58,7 @@ class QuizletViewModel: ObservableObject {
         saveURLToUserDefaults() // Save URL to UserDefaults
         
         isLoading = true
+        self.flashcards = [] // Clear existing flashcards before fetching new ones
         let initialUrlString = "\(baseUrl)?filters[studiableContainerId]=\(setId)&filters[studiableContainerType]=1&perPage=500&page=1"
         
         print("Initial API URL: \(initialUrlString)")
@@ -96,6 +111,7 @@ class QuizletViewModel: ObservableObject {
                         self.isLoading = false
                         self.prepareQuestion()
                     }
+                    self.saveFlashcardsToUserDefaults()
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -133,6 +149,13 @@ class QuizletViewModel: ObservableObject {
         self.flashcards.append(contentsOf: newFlashcards)
     }
     
+    private func saveFlashcardsToUserDefaults() {
+        if let encodedData = try? JSONEncoder().encode(self.flashcards) {
+            UserDefaults.standard.set(encodedData, forKey: userDefaultsKey)
+            UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: lastUpdateKey)
+        }
+    }
+    
     func prepareQuestion() {
         guard !flashcards.isEmpty else { return }
         
@@ -152,8 +175,6 @@ class QuizletViewModel: ObservableObject {
     
     func checkAnswer(_ selectedAnswer: String) {
         guard !questionAnswered else { return }
-        
-        print("Checking answer: \(selectedAnswer)") // Log the answer being checked
         
         if selectedAnswer == currentQuestion?.definition {
             correctAnswers += 1
