@@ -72,6 +72,25 @@ struct LimitItemView: View {
                         }
                         .padding(.top, 5)
                     }
+                    if result.starts(with: "Correct") {
+                        Button(action: {
+                            if quizViewModel.correctAnswersInSession >= 3 {
+                                isShowingQuiz = false
+                                showQuestion = false
+                            } else {
+                                quizViewModel.prepareQuestion() // Show another question after correct answer
+                                quizViewModel.answerResult = nil // Reset the result to display the new question
+                                quizViewModel.questionAnswered = false // Reset question answered state
+                            }
+                        }) {
+                            Text("Next Question")
+                                .padding()
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        .padding(.top, 5)
+                    }
                 }
                 if quizViewModel.correctAnswersInSession >= 3 {
                     Button(action: {
@@ -121,14 +140,6 @@ struct QuizPopupView: View {
                             quizViewModel.checkAnswer(option)
                             if quizViewModel.answerResult?.starts(with: "Correct") == true {
                                 quizViewModel.correctAnswersInSession += 1
-                                if quizViewModel.correctAnswersInSession >= 3 {
-                                    showQuestion = false
-                                    isShowingQuiz = false
-                                } else {
-                                    quizViewModel.prepareQuestion() // Show another question after correct answer
-                                    quizViewModel.answerResult = nil // Reset the result to display the new question
-                                    quizViewModel.questionAnswered = false // Reset question answered state
-                                }
                             }
                         }) {
                             Text(option)
@@ -159,6 +170,25 @@ struct QuizPopupView: View {
                         Text("Next Question")
                             .padding()
                             .background(Color.orange)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    .padding(.top, 5)
+                }
+                if result.starts(with: "Correct") {
+                    Button(action: {
+                        if quizViewModel.correctAnswersInSession >= 3 {
+                            showQuestion = false
+                            isShowingQuiz = false
+                        } else {
+                            quizViewModel.prepareQuestion() // Show another question after correct answer
+                            quizViewModel.answerResult = nil // Reset the result to display the new question
+                            quizViewModel.questionAnswered = false // Reset question answered state
+                        }
+                    }) {
+                        Text("Next Question")
+                            .padding()
+                            .background(Color.green)
                             .foregroundColor(.white)
                             .cornerRadius(8)
                     }
