@@ -122,93 +122,97 @@ struct LimitItemView: View {
     }
 }
 
-
 struct QuizPopupView: View {
     @StateObject var quizViewModel: QuizletViewModel
     @Binding var isShowingQuiz: Bool
     @Binding var showQuestion: Bool
 
     var body: some View {
-        VStack {
-            if let question = quizViewModel.currentQuestion {
-                Text(question.term)
-                    .padding(.top, 5)
-                    .foregroundColor(Color(hex: "#FFFFFF"))
-                VStack {
-                    ForEach(quizViewModel.options.indices, id: \.self) { index in
-                        let option = quizViewModel.options[index]
-                        Button(action: {
-                            if quizViewModel.questionAnswered {
-                                return
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color(hex: "#0B132B"), Color(hex: "#1C2541")]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
+
+            VStack {
+                if let question = quizViewModel.currentQuestion {
+                    Text(question.term)
+                        .padding(.top, 5)
+                        .foregroundColor(Color(hex: "#FFFFFF"))
+                    VStack {
+                        ForEach(quizViewModel.options.indices, id: \.self) { index in
+                            let option = quizViewModel.options[index]
+                            Button(action: {
+                                if quizViewModel.questionAnswered {
+                                    return
+                                }
+                                print("Selected answer: \(option)") // Log the selected answer
+                                quizViewModel.checkAnswer(option)
+                                if quizViewModel.answerResult?.starts(with: "Correct") == true {
+                                    quizViewModel.correctAnswersInSession += 1
+                                }
+                            }) {
+                                Text(option)
+                                    .padding()
+                                    .frame(maxWidth: .infinity) // Make the button full-width
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(8)
+                                    .foregroundColor(Color(hex: "#FFFFFF"))
                             }
-                            print("Selected answer: \(option)") // Log the selected answer
-                            quizViewModel.checkAnswer(option)
-                            if quizViewModel.answerResult?.starts(with: "Correct") == true {
-                                quizViewModel.correctAnswersInSession += 1
-                            }
-                        }) {
-                            Text(option)
-                                .padding()
-                                .frame(maxWidth: .infinity) // Make the button full-width
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(8)
-                                .foregroundColor(Color(hex: "#FFFFFF"))
+                            .padding(.vertical, 2) // Adjust padding to ensure buttons don't overlap
                         }
-                        .padding(.vertical, 2) // Adjust padding to ensure buttons don't overlap
                     }
-                }
-                Text("Correct Answers: \(quizViewModel.correctAnswersInSession)/3")
-                    .font(.subheadline)
-                    .foregroundColor(Color(hex: "#FFFFFF"))
-                    .padding(.top, 10)
-            }
-            if let result = quizViewModel.answerResult {
-                Text(result)
-                    .font(.headline)
-                    .foregroundColor(result.starts(with: "Correct") ? .green : .red)
-                    .padding()
-                if result.starts(with: "Incorrect") {
-                    Text("The correct answer was: \(quizViewModel.currentQuestion?.definition ?? "")")
+                    Text("Correct Answers: \(quizViewModel.correctAnswersInSession)/3")
                         .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.bottom, 5)
-                    Button(action: {
-                        quizViewModel.prepareQuestion() // Show another question after incorrect answer
-                        quizViewModel.answerResult = nil // Reset the result to display the new question
-                        quizViewModel.questionAnswered = false // Reset question answered state
-                    }) {
-                        Text("Next Question")
-                            .padding()
-                            .background(Color.orange)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding(.top, 5)
+                        .foregroundColor(Color(hex: "#FFFFFF"))
+                        .padding(.top, 10)
                 }
-                if result.starts(with: "Correct") {
-                    Button(action: {
-                        if quizViewModel.correctAnswersInSession >= 3 {
-                            showQuestion = false
-                            isShowingQuiz = false
-                        } else {
-                            quizViewModel.prepareQuestion() // Show another question after correct answer
+                if let result = quizViewModel.answerResult {
+                    Text(result)
+                        .font(.headline)
+                        .foregroundColor(result.starts(with: "Correct") ? .green : .red)
+                        .padding()
+                    if result.starts(with: "Incorrect") {
+                        Text("The correct answer was: \(quizViewModel.currentQuestion?.definition ?? "")")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 5)
+                        Button(action: {
+                            quizViewModel.prepareQuestion() // Show another question after incorrect answer
                             quizViewModel.answerResult = nil // Reset the result to display the new question
                             quizViewModel.questionAnswered = false // Reset question answered state
+                        }) {
+                            Text("Next Question")
+                                .padding()
+                                .background(Color.orange)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
                         }
-                    }) {
-                        Text(quizViewModel.correctAnswersInSession >= 3 ? "Return to Limits" : "Next Question")
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        .padding(.top, 5)
                     }
-                    .padding(.top, 5)
+                    if result.starts(with: "Correct") {
+                        Button(action: {
+                            if quizViewModel.correctAnswersInSession >= 3 {
+                                showQuestion = false
+                                isShowingQuiz = false
+                            } else {
+                                quizViewModel.prepareQuestion() // Show another question after correct answer
+                                quizViewModel.answerResult = nil // Reset the result to display the new question
+                                quizViewModel.questionAnswered = false // Reset question answered state
+                            }
+                        }) {
+                            Text(quizViewModel.correctAnswersInSession >= 3 ? "Return to Limits" : "Next Question")
+                                .padding()
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        .padding(.top, 5)
+                    }
                 }
             }
+            .padding()
+            .background(Color(hex: "#1C2541").opacity(0.8))
+            .cornerRadius(10)
+            .shadow(radius: 10)
         }
-        .padding()
-        .background(Color(hex: "#1C2541"))
-        .cornerRadius(10)
-        .shadow(radius: 10)
     }
 }

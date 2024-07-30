@@ -32,6 +32,8 @@ struct LimitsView: View {
                         }
                     }
                 }
+                .listStyle(PlainListStyle()) // Set the list style to plain
+                .background(Color.clear) // Ensure the list background is clear
                 .navigationTitle("Limits")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -52,8 +54,8 @@ struct LimitsView: View {
                 .onDisappear {
                     stopTimer()
                 }
-                .background(Color.clear) // Ensure List background is clear
             }
+            .background(Color.clear) // Ensure the overall background is clear
         }
     }
 
