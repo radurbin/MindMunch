@@ -6,6 +6,7 @@
 //  Expanded by Riley Durbin on 07/23/24.
 //
 
+// ActivitiesView.swift
 import SwiftUI
 
 struct ActivitiesView: View {
@@ -15,18 +16,25 @@ struct ActivitiesView: View {
         VStack {
             Spacer(minLength: 50)
             
-            // Display total usage time from DeviceActivity
             Text("Usage time: \(formatUsageTime(activities.duration))")
                 .bold()
-                .font(.title3)
+                .font(.title)
+                .foregroundColor(Color(hex: "#FFFFFF"))
+                .padding()
             
             List(filteredAndSortedApps(activities.apps)) { app in
                 ListItem(app: app)
+                    .listRowBackground(Color.clear)
             }
+            .background(Color.clear)
+            .listStyle(PlainListStyle())
         }
+        .background(
+            LinearGradient(gradient: Gradient(colors: [Color(hex: "#0B132B"), Color(hex: "#1C2541")]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
+        )
     }
     
-    // Function to format usage time based on whether hours is zero or not
     private func formatUsageTime(_ duration: TimeInterval) -> String {
         let totalSeconds = Int(duration)
         let hours = totalSeconds / 3600
@@ -40,7 +48,6 @@ struct ActivitiesView: View {
         }
     }
     
-    // Function to filter and sort apps by duration in descending order
     private func filteredAndSortedApps(_ apps: [AppReport]) -> [AppReport] {
         return apps
             .filter { $0.duration > 0 }
@@ -54,7 +61,7 @@ struct ActivitiesView_Previews: PreviewProvider {
             AppReport(id: "1", name: "Twitter", duration: 600),
             AppReport(id: "2", name: "Facebook", duration: 1200),
             AppReport(id: "3", name: "Instagram", duration: 300),
-            AppReport(id: "4", name: "EmptyApp", duration: 0) // This app will be filtered out
+            AppReport(id: "4", name: "EmptyApp", duration: 0)
         ]))
     }
 }

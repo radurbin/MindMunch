@@ -17,34 +17,42 @@ struct LimitsView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.appLimits) { limit in
-                    LimitItemView(limit: limit, quizViewModel: quizViewModel, confirmLimitID: $confirmLimitID, showQuestion: $showQuestion, viewModel: viewModel)
-                }
-                .onDelete { indexSet in
-                    indexSet.forEach { index in
-                        viewModel.deleteAppLimit(at: index)
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [Color(hex: "#0B132B"), Color(hex: "#1C2541")]), startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea(.all)
+                
+                List {
+                    ForEach(viewModel.appLimits) { limit in
+                        LimitItemView(limit: limit, quizViewModel: quizViewModel, confirmLimitID: $confirmLimitID, showQuestion: $showQuestion, viewModel: viewModel)
+                            .listRowBackground(Color.clear) // Ensure transparent background for rows
+                    }
+                    .onDelete { indexSet in
+                        indexSet.forEach { index in
+                            viewModel.deleteAppLimit(at: index)
+                        }
                     }
                 }
-            }
-            .navigationTitle("Limits")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        isPresentingAddLimitView = true
-                    }) {
-                        Image(systemName: "plus")
+                .navigationTitle("Limits")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            isPresentingAddLimitView = true
+                        }) {
+                            Image(systemName: "plus")
+                                .foregroundColor(.white)
+                        }
                     }
                 }
-            }
-            .sheet(isPresented: $isPresentingAddLimitView) {
-                AddLimitView(viewModel: viewModel)
-            }
-            .onAppear {
-                startTimer()
-            }
-            .onDisappear {
-                stopTimer()
+                .sheet(isPresented: $isPresentingAddLimitView) {
+                    AddLimitView(viewModel: viewModel)
+                }
+                .onAppear {
+                    startTimer()
+                }
+                .onDisappear {
+                    stopTimer()
+                }
+                .background(Color.clear) // Ensure List background is clear
             }
         }
     }

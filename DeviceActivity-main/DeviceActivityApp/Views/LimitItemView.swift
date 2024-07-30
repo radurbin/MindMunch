@@ -26,8 +26,11 @@ struct LimitItemView: View {
                     VStack(alignment: .leading) {
                         Label(appToken) // Replace with actual app name
                             .font(.headline)
+                            .foregroundColor(Color(hex: "#FFFFFF"))
                         Text("Limit: \(limit.hours)h \(limit.minutes)m")
+                            .foregroundColor(Color(hex: "#6C757D"))
                         Text("Remaining: \(Int(limit.remainingTime) / 3600)h \(Int(limit.remainingTime) % 3600 / 60)m \(Int(limit.remainingTime) % 60)s")
+                            .foregroundColor(Color(hex: "#6C757D"))
                     }
                 }
                 Spacer()
@@ -42,7 +45,7 @@ struct LimitItemView: View {
                         isShowingQuiz = true
                     }
                     .padding()
-                    .background(Color.blue)
+                    .background(Color(hex: "#3A506B"))
                     .foregroundColor(.white)
                     .cornerRadius(8)
                     .padding(.trailing, 10)
@@ -115,8 +118,10 @@ struct LimitItemView: View {
         .sheet(isPresented: $isShowingQuiz) {
             QuizPopupView(quizViewModel: quizViewModel, isShowingQuiz: $isShowingQuiz, showQuestion: $showQuestion)
         }
+        .background(Color.clear) // Ensure background is clear
     }
 }
+
 
 struct QuizPopupView: View {
     @StateObject var quizViewModel: QuizletViewModel
@@ -128,6 +133,7 @@ struct QuizPopupView: View {
             if let question = quizViewModel.currentQuestion {
                 Text(question.term)
                     .padding(.top, 5)
+                    .foregroundColor(Color(hex: "#FFFFFF"))
                 VStack {
                     ForEach(quizViewModel.options.indices, id: \.self) { index in
                         let option = quizViewModel.options[index]
@@ -146,12 +152,14 @@ struct QuizPopupView: View {
                                 .frame(maxWidth: .infinity) // Make the button full-width
                                 .background(Color.gray.opacity(0.2))
                                 .cornerRadius(8)
+                                .foregroundColor(Color(hex: "#FFFFFF"))
                         }
                         .padding(.vertical, 2) // Adjust padding to ensure buttons don't overlap
                     }
                 }
                 Text("Correct Answers: \(quizViewModel.correctAnswersInSession)/3")
                     .font(.subheadline)
+                    .foregroundColor(Color(hex: "#FFFFFF"))
                     .padding(.top, 10)
             }
             if let result = quizViewModel.answerResult {
@@ -199,5 +207,8 @@ struct QuizPopupView: View {
             }
         }
         .padding()
+        .background(Color(hex: "#1C2541"))
+        .cornerRadius(10)
+        .shadow(radius: 10)
     }
 }

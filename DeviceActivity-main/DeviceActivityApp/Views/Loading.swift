@@ -6,6 +6,7 @@
 //  Expanded by Riley Durbin on 07/23/24.
 //
 
+// Loading.swift
 import SwiftUI
 
 struct Loading: View {
@@ -13,26 +14,29 @@ struct Loading: View {
     private let text: String
     private let scale: Double
     
-    init(text: String,
-         scale: Double = 1.5) {
+    init(text: String, scale: Double = 1.5) {
         self.text = text
         self.scale = scale
     }
     
     var body: some View {
-        VStack {
-            ProgressView {
-                Text(text)
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color(hex: "#0B132B"), Color(hex: "#1C2541")]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                ProgressView {
+                    Text(text)
+                }
+                .foregroundColor(.white)
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                .font(.title3)
+                .controlSize(.large)
+                .scaleEffect(scale)
+                .foregroundColor(.white)
             }
-            .foregroundColor(.white)
-            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-            .font(.title3)
-            .controlSize(.large)
-            .scaleEffect(scale)
-            .foregroundColor(.black)
         }
     }
-    
 }
 
 struct Loading_Previews: PreviewProvider {
@@ -40,4 +44,3 @@ struct Loading_Previews: PreviewProvider {
         Loading(text: "please wait...")
     }
 }
-

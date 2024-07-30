@@ -6,6 +6,7 @@
 //  Expanded by Riley Durbin on 07/23/24.
 //
 
+// ListItem.swift
 import SwiftUI
 
 struct ListItem: View {
@@ -19,14 +20,23 @@ struct ListItem: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(app.name)
+                    .font(.headline)
+                    .foregroundColor(Color(hex: "#FFFFFF"))
+                Text(formatUsageTime(app.duration))
+                    .font(.subheadline)
+                    .foregroundColor(Color(hex: "#6C757D"))
             }
             
             Spacer()
             Text(formatUsageTime(app.duration))
+                .font(.subheadline)
+                .foregroundColor(Color(hex: "#FFFFFF"))
         }
+        .padding()
+        .background(Color(hex: "#1C2541"))
+        .cornerRadius(10)
     }
     
-    // Function to format usage time based on whether hours is zero or not
     private func formatUsageTime(_ duration: TimeInterval) -> String {
         let totalSeconds = Int(duration)
         let hours = totalSeconds / 3600
