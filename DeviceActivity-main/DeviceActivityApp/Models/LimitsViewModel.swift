@@ -16,7 +16,7 @@ struct AppLimit: Identifiable, Codable {
     let hours: Int
     let minutes: Int
     var remainingTime: TimeInterval
-    var startTime: Date?
+    var lastUpdateTime: Date
     
     init(id: UUID = UUID(), selection: FamilyActivitySelection, hours: Int, minutes: Int) {
         self.id = id
@@ -24,12 +24,12 @@ struct AppLimit: Identifiable, Codable {
         self.hours = hours
         self.minutes = minutes
         self.remainingTime = TimeInterval(hours * 3600 + minutes * 60)
-        self.startTime = Date()
+        self.lastUpdateTime = Date()
     }
 
     mutating func extendTime(by minutes: Int) {
         remainingTime += TimeInterval(minutes * 60)
-        startTime = Date()
+        lastUpdateTime = Date()
     }
 }
 
@@ -68,23 +68,24 @@ class LimitsViewModel: ObservableObject {
     
     func startTimer() {
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.updateAppUsage()
         }
     }
     
     func updateAppUsage() {
         var needsUpdate = false
+        let currentTime = Date()
         for (index, limit) in appLimits.enumerated() {
-            if let startTime = appLimits[index].startTime {
-                let elapsedTime = Date().timeIntervalSince(startTime)
+            if appLimits[index].remainingTime > 0 {
+                let elapsedTime = currentTime.timeIntervalSince(limit.lastUpdateTime)
                 appLimits[index].remainingTime -= elapsedTime
-                appLimits[index].startTime = Date()
+                appLimits[index].lastUpdateTime = currentTime
                 needsUpdate = true
                 if appLimits[index].remainingTime <= 0 {
                     appLimits[index].remainingTime = 0
                     lockApps(for: limit.selection)
-                    appLimits[index].startTime = nil // Stop further updates for this limit
+                    // appLimits[index].lastUpdateTime = Date.distantFuture // Remove this line
                 }
             }
         }
