@@ -49,7 +49,25 @@ struct LimitItemView: View {
                 }
             }
             if confirmLimitID == limit.id {
-                if let result = quizViewModel.answerResult {
+                if quizViewModel.correctAnswersInSession >= 3 {
+                    Button(action: {
+                        if let id = confirmLimitID {
+                            viewModel.extendAppLimit(for: id, by: 15)
+                            confirmLimitID = nil
+                            quizViewModel.answerResult = nil
+                            quizViewModel.questionAnswered = false // Reset question answered state
+                            quizViewModel.correctAnswersInSession = 0 // Reset session correct answers
+                        }
+                    }) {
+                        Text("Confirm")
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    .padding(.trailing, 5)
+                } else if let result = quizViewModel.answerResult {
                     Text(result)
                         .font(.headline)
                         .foregroundColor(result.starts(with: "Correct") ? .green : .red)
@@ -75,15 +93,15 @@ struct LimitItemView: View {
                     if result.starts(with: "Correct") {
                         Button(action: {
                             if quizViewModel.correctAnswersInSession >= 3 {
-                                isShowingQuiz = false
                                 showQuestion = false
+                                isShowingQuiz = false
                             } else {
                                 quizViewModel.prepareQuestion() // Show another question after correct answer
                                 quizViewModel.answerResult = nil // Reset the result to display the new question
                                 quizViewModel.questionAnswered = false // Reset question answered state
                             }
                         }) {
-                            Text("Next Question")
+                            Text(quizViewModel.correctAnswersInSession >= 3 ? "Return to Limits" : "Next Question")
                                 .padding()
                                 .background(Color.green)
                                 .foregroundColor(.white)
@@ -91,25 +109,6 @@ struct LimitItemView: View {
                         }
                         .padding(.top, 5)
                     }
-                }
-                if quizViewModel.correctAnswersInSession >= 3 {
-                    Button(action: {
-                        if let id = confirmLimitID {
-                            viewModel.extendAppLimit(for: id, by: 15)
-                            confirmLimitID = nil
-                            quizViewModel.answerResult = nil
-                            quizViewModel.questionAnswered = false // Reset question answered state
-                            quizViewModel.correctAnswersInSession = 0 // Reset session correct answers
-                        }
-                    }) {
-                        Text("Confirm")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding(.trailing, 5)
                 }
             }
         }
@@ -186,7 +185,7 @@ struct QuizPopupView: View {
                             quizViewModel.questionAnswered = false // Reset question answered state
                         }
                     }) {
-                        Text("Next Question")
+                        Text(quizViewModel.correctAnswersInSession >= 3 ? "Return to Limits" : "Next Question")
                             .padding()
                             .background(Color.green)
                             .foregroundColor(.white)
