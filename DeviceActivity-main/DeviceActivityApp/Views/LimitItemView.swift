@@ -51,7 +51,11 @@ struct LimitItemView: View {
                     ForEach(quizViewModel.options, id: \.self) { option in
                         Button(action: {
                             quizViewModel.checkAnswer(option)
-                            showQuestion = false // Hide question after answer
+                            if quizViewModel.answerResult?.starts(with: "Correct") == true {
+                                showQuestion = false // Hide question after correct answer
+                            } else {
+                                quizViewModel.prepareQuestion() // Show another question if incorrect
+                            }
                         }) {
                             Text(option)
                                 .padding()
@@ -66,7 +70,7 @@ struct LimitItemView: View {
                         .foregroundColor(result.starts(with: "Correct") ? .green : .red)
                         .padding()
                 }
-                if quizViewModel.answerResult != nil {
+                if quizViewModel.answerResult?.starts(with: "Correct") == true {
                     Button(action: {
                         if let id = confirmLimitID {
                             viewModel.extendAppLimit(for: id, by: 15)
