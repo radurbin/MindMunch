@@ -18,16 +18,12 @@ struct ListItem: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text(app.name)
-                    .font(.headline)
-                    .foregroundColor(Color(hex: "#FFFFFF"))
-                Text(formatUsageTime(app.duration))
-                    .font(.subheadline)
-                    .foregroundColor(Color(hex: "#6C757D"))
-            }
+            Text(app.name)
+                .font(.headline)
+                .foregroundColor(Color(hex: "#FFFFFF"))
             
             Spacer()
+            
             Text(formatUsageTime(app.duration))
                 .font(.subheadline)
                 .foregroundColor(Color(hex: "#FFFFFF"))
