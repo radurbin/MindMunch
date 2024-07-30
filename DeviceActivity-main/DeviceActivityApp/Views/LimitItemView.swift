@@ -150,6 +150,9 @@ struct QuizPopupView: View {
                         .padding(.vertical, 2) // Adjust padding to ensure buttons don't overlap
                     }
                 }
+                Text("Correct Answers: \(quizViewModel.correctAnswersInSession)/3")
+                    .font(.subheadline)
+                    .padding(.top, 10)
             }
             if let result = quizViewModel.answerResult {
                 Text(result)
