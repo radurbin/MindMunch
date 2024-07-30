@@ -13,6 +13,7 @@ struct LimitItemView: View {
     @Binding var confirmLimitID: UUID?
     @Binding var showQuestion: Bool
     @ObservedObject var viewModel: LimitsViewModel
+    @State private var isShowingQuiz = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -36,6 +37,8 @@ struct LimitItemView: View {
                         showQuestion = true
                         quizViewModel.prepareQuestion()
                         quizViewModel.answerResult = nil // Reset answer result
+                        quizViewModel.questionAnswered = false // Reset question answered state
+                        isShowingQuiz = true
                     }
                     .padding()
                     .background(Color.blue)
@@ -45,30 +48,29 @@ struct LimitItemView: View {
                 }
             }
             if confirmLimitID == limit.id {
-                if showQuestion, let question = quizViewModel.currentQuestion {
-                    Text(question.term)
-                        .padding(.top, 5)
-                    ForEach(quizViewModel.options, id: \.self) { option in
-                        Button(action: {
-                            quizViewModel.checkAnswer(option)
-                            if quizViewModel.answerResult?.starts(with: "Correct") == true {
-                                showQuestion = false // Hide question after correct answer
-                            } else {
-                                quizViewModel.prepareQuestion() // Show another question if incorrect
-                            }
-                        }) {
-                            Text(option)
-                                .padding()
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(8)
-                        }
-                    }
-                }
                 if let result = quizViewModel.answerResult {
                     Text(result)
                         .font(.headline)
                         .foregroundColor(result.starts(with: "Correct") ? .green : .red)
                         .padding()
+                    if result.starts(with: "Incorrect") {
+                        Text("The correct answer was: \(quizViewModel.currentQuestion?.definition ?? "")")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 5)
+                        Button(action: {
+                            quizViewModel.prepareQuestion() // Show another question after incorrect answer
+                            quizViewModel.answerResult = nil // Reset the result to display the new question
+                            quizViewModel.questionAnswered = false // Reset question answered state
+                        }) {
+                            Text("Next Question")
+                                .padding()
+                                .background(Color.orange)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        .padding(.top, 5)
+                    }
                 }
                 if quizViewModel.answerResult?.starts(with: "Correct") == true {
                     Button(action: {
@@ -76,6 +78,7 @@ struct LimitItemView: View {
                             viewModel.extendAppLimit(for: id, by: 15)
                             confirmLimitID = nil
                             quizViewModel.answerResult = nil
+                            quizViewModel.questionAnswered = false // Reset question answered state
                         }
                     }) {
                         Text("Confirm")
@@ -89,5 +92,71 @@ struct LimitItemView: View {
                 }
             }
         }
+        .sheet(isPresented: $isShowingQuiz) {
+            QuizPopupView(quizViewModel: quizViewModel, isShowingQuiz: $isShowingQuiz, showQuestion: $showQuestion)
+        }
+    }
+}
+
+struct QuizPopupView: View {
+    @StateObject var quizViewModel: QuizletViewModel
+    @Binding var isShowingQuiz: Bool
+    @Binding var showQuestion: Bool
+
+    var body: some View {
+        VStack {
+            if let question = quizViewModel.currentQuestion {
+                Text(question.term)
+                    .padding(.top, 5)
+                VStack {
+                    ForEach(quizViewModel.options.indices, id: \.self) { index in
+                        let option = quizViewModel.options[index]
+                        Button(action: {
+                            if quizViewModel.questionAnswered {
+                                return
+                            }
+                            print("Selected answer: \(option)") // Log the selected answer
+                            quizViewModel.checkAnswer(option)
+                            if quizViewModel.answerResult?.starts(with: "Correct") == true {
+                                showQuestion = false // Hide question after correct answer
+                                isShowingQuiz = false
+                            }
+                        }) {
+                            Text(option)
+                                .padding()
+                                .frame(maxWidth: .infinity) // Make the button full-width
+                                .background(Color.gray.opacity(0.2))
+                                .cornerRadius(8)
+                        }
+                        .padding(.vertical, 2) // Adjust padding to ensure buttons don't overlap
+                    }
+                }
+            }
+            if let result = quizViewModel.answerResult {
+                Text(result)
+                    .font(.headline)
+                    .foregroundColor(result.starts(with: "Correct") ? .green : .red)
+                    .padding()
+                if result.starts(with: "Incorrect") {
+                    Text("The correct answer was: \(quizViewModel.currentQuestion?.definition ?? "")")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding(.bottom, 5)
+                    Button(action: {
+                        quizViewModel.prepareQuestion() // Show another question after incorrect answer
+                        quizViewModel.answerResult = nil // Reset the result to display the new question
+                        quizViewModel.questionAnswered = false // Reset question answered state
+                    }) {
+                        Text("Next Question")
+                            .padding()
+                            .background(Color.orange)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    .padding(.top, 5)
+                }
+            }
+        }
+        .padding()
     }
 }

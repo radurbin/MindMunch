@@ -152,6 +152,8 @@ class QuizletViewModel: ObservableObject {
     func checkAnswer(_ selectedAnswer: String) {
         guard !questionAnswered else { return }
         
+        print("Checking answer: \(selectedAnswer)") // Log the answer being checked
+        
         if selectedAnswer == currentQuestion?.definition {
             correctAnswers += 1
             answerResult = "Correct!"
