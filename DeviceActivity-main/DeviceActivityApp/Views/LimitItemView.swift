@@ -12,7 +12,7 @@ struct LimitItemView: View {
     @StateObject var quizViewModel: QuizletViewModel
     @Binding var confirmLimitID: UUID?
     @Binding var showQuestion: Bool
-    @ObservedObject var viewModel: LimitsViewModel // Add this line
+    @ObservedObject var viewModel: LimitsViewModel
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -35,6 +35,7 @@ struct LimitItemView: View {
                         confirmLimitID = limit.id
                         showQuestion = true
                         quizViewModel.prepareQuestion()
+                        quizViewModel.answerResult = nil // Reset answer result
                     }
                     .padding()
                     .background(Color.blue)
@@ -50,9 +51,7 @@ struct LimitItemView: View {
                     ForEach(quizViewModel.options, id: \.self) { option in
                         Button(action: {
                             quizViewModel.checkAnswer(option)
-                            if quizViewModel.answerResult?.starts(with: "Correct") == true || quizViewModel.answerResult?.starts(with: "Incorrect") == true {
-                                showQuestion = false
-                            }
+                            showQuestion = false // Hide question after answer
                         }) {
                             Text(option)
                                 .padding()
@@ -60,18 +59,19 @@ struct LimitItemView: View {
                                 .cornerRadius(8)
                         }
                     }
-                    if let result = quizViewModel.answerResult {
-                        Text(result)
-                            .font(.headline)
-                            .foregroundColor(result.starts(with: "Correct") ? .green : .red)
-                            .padding()
-                    }
                 }
-                if !showQuestion {
+                if let result = quizViewModel.answerResult {
+                    Text(result)
+                        .font(.headline)
+                        .foregroundColor(result.starts(with: "Correct") ? .green : .red)
+                        .padding()
+                }
+                if quizViewModel.answerResult != nil {
                     Button(action: {
                         if let id = confirmLimitID {
                             viewModel.extendAppLimit(for: id, by: 15)
                             confirmLimitID = nil
+                            quizViewModel.answerResult = nil
                         }
                     }) {
                         Text("Confirm")
