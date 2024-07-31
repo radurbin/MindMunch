@@ -10,6 +10,12 @@ import SwiftUI
 import UIKit
 import UserNotifications
 import BackgroundTasks
+import DeviceActivity
+import FamilyControls
+
+extension DeviceActivityName {
+    static let dailyCheck = DeviceActivityName("dailyCheck")
+}
 
 @main
 struct DeviceActivityApp: App {
@@ -52,6 +58,10 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Limits", systemImage: "timer")
                 }
+            DailyLimitsView()
+                .tabItem {
+                    Label("Daily Limits", systemImage: "hourglass")
+                }
         }
     }
 }
@@ -61,6 +71,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UNUserNotificationCenter.current().delegate = self
         BackgroundTaskManager.shared.registerBackgroundTasks()
+        
+        // Setup the device activity schedule
+        setupDeviceActivitySchedule()
+        
         return true
     }
     
@@ -76,5 +90,35 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // Handle notification response if needed
         completionHandler()
+    }
+}
+
+extension AppDelegate {
+    func setupDeviceActivitySchedule() {
+        // Define the schedule
+        let schedule = DeviceActivitySchedule(
+            intervalStart: DateComponents(hour: 0, minute: 0),
+            intervalEnd: DateComponents(hour: 23, minute: 59),
+            repeats: true
+        )
+        
+        // Define the event
+        let event = DeviceActivityEvent(
+            threshold: DateComponents(hour: 1) // Trigger every hour
+        )
+        
+        // Define the events dictionary
+        let events: [DeviceActivityEvent.Name: DeviceActivityEvent] = [
+            .init("hourlyCheck"): event
+        ]
+        
+        // Start monitoring
+        let center = DeviceActivityCenter()
+        do {
+            try center.startMonitoring(.dailyCheck, during: schedule, events: events)
+            print("Started monitoring for dailyCheck with schedule and events")
+        } catch {
+            print("Failed to start monitoring: \(error.localizedDescription)")
+        }
     }
 }

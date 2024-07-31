@@ -25,6 +25,13 @@
 		00BE9CAB2C594F9900EB3427 /* LimitItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CAA2C594F9900EB3427 /* LimitItemView.swift */; };
 		00BE9CB72C59924400EB3427 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CB62C59924400EB3427 /* ColorExtensions.swift */; };
 		00BE9CB82C59925D00EB3427 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CB62C59924400EB3427 /* ColorExtensions.swift */; };
+		00BE9CE62C5A647100EB3427 /* DailyLimitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CE52C5A647100EB3427 /* DailyLimitsViewModel.swift */; };
+		00BE9CE82C5A648500EB3427 /* DailyLimitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CE72C5A648500EB3427 /* DailyLimitsView.swift */; };
+		00BE9CEE2C5A64C000EB3427 /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F7A7B02A8021CA009DECF9 /* DeviceActivity.framework */; };
+		00BE9CF12C5A64C000EB3427 /* DeviceActivityMonitorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CF02C5A64C000EB3427 /* DeviceActivityMonitorExtension.swift */; };
+		00BE9CF62C5A64C000EB3427 /* DeviceActivityMonitorExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 00BE9CED2C5A64C000EB3427 /* DeviceActivityMonitorExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		00BE9CFB2C5A683C00EB3427 /* DeviceActivityMonitorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CF02C5A64C000EB3427 /* DeviceActivityMonitorExtension.swift */; };
+		00BE9CFC2C5A684900EB3427 /* DailyLimitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CE52C5A647100EB3427 /* DailyLimitsViewModel.swift */; };
 		C5F7A79D2A80209E009DECF9 /* DeviceActivityApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */; };
 		C5F7A79F2A80209E009DECF9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7A79E2A80209E009DECF9 /* ContentView.swift */; };
 		C5F7A7A12A80209E009DECF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5F7A7A02A80209E009DECF9 /* Assets.xcassets */; };
@@ -51,6 +58,13 @@
 			remoteGlobalIDString = 00BE9C322C52B1C600EB3427;
 			remoteInfo = MyReportExtension;
 		};
+		00BE9CF42C5A64C000EB3427 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5F7A7912A80209E009DECF9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00BE9CEC2C5A64C000EB3427;
+			remoteInfo = DeviceActivityMonitorExtension;
+		};
 		C5F7A7E32A8037A8009DECF9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C5F7A7912A80209E009DECF9 /* Project object */;
@@ -67,6 +81,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				00BE9CF62C5A64C000EB3427 /* DeviceActivityMonitorExtension.appex in Embed Foundation Extensions */,
 				00BE9C3F2C52B1C600EB3427 /* MyReportExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -106,6 +121,12 @@
 		00BE9C472C52B51900EB3427 /* munch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = munch.png; path = ../../../munch.png; sourceTree = "<group>"; };
 		00BE9CAA2C594F9900EB3427 /* LimitItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitItemView.swift; sourceTree = "<group>"; };
 		00BE9CB62C59924400EB3427 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
+		00BE9CE52C5A647100EB3427 /* DailyLimitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLimitsViewModel.swift; sourceTree = "<group>"; };
+		00BE9CE72C5A648500EB3427 /* DailyLimitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyLimitsView.swift; sourceTree = "<group>"; };
+		00BE9CED2C5A64C000EB3427 /* DeviceActivityMonitorExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeviceActivityMonitorExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		00BE9CF02C5A64C000EB3427 /* DeviceActivityMonitorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityMonitorExtension.swift; sourceTree = "<group>"; };
+		00BE9CF22C5A64C000EB3427 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00BE9CF32C5A64C000EB3427 /* DeviceActivityMonitorExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeviceActivityMonitorExtension.entitlements; sourceTree = "<group>"; };
 		C5F7A7992A80209E009DECF9 /* DeviceActivityApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeviceActivityApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityApp.swift; sourceTree = "<group>"; };
 		C5F7A79E2A80209E009DECF9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -139,6 +160,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		00BE9CEA2C5A64C000EB3427 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00BE9CEE2C5A64C000EB3427 /* DeviceActivity.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C5F7A7962A80209E009DECF9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -163,6 +192,7 @@
 				00BE9BC82C4FB9E300EB3427 /* QuizletViewModel.swift */,
 				00BE9BD62C504BEF00EB3427 /* LimitsViewModel.swift */,
 				00BE9BEE2C513BD200EB3427 /* AddLimitViewModel.swift */,
+				00BE9CE52C5A647100EB3427 /* DailyLimitsViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -179,12 +209,23 @@
 			path = MyReportExtension;
 			sourceTree = "<group>";
 		};
+		00BE9CEF2C5A64C000EB3427 /* DeviceActivityMonitorExtension */ = {
+			isa = PBXGroup;
+			children = (
+				00BE9CF02C5A64C000EB3427 /* DeviceActivityMonitorExtension.swift */,
+				00BE9CF22C5A64C000EB3427 /* Info.plist */,
+				00BE9CF32C5A64C000EB3427 /* DeviceActivityMonitorExtension.entitlements */,
+			);
+			path = DeviceActivityMonitorExtension;
+			sourceTree = "<group>";
+		};
 		C5F7A7902A80209E009DECF9 = {
 			isa = PBXGroup;
 			children = (
 				C5F7A79B2A80209E009DECF9 /* DeviceActivityApp */,
 				C5F7A7DA2A8037A8009DECF9 /* MonitorReport */,
 				00BE9C382C52B1C600EB3427 /* MyReportExtension */,
+				00BE9CEF2C5A64C000EB3427 /* DeviceActivityMonitorExtension */,
 				C5F7A7AF2A8021CA009DECF9 /* Frameworks */,
 				C5F7A79A2A80209E009DECF9 /* Products */,
 			);
@@ -196,6 +237,7 @@
 				C5F7A7992A80209E009DECF9 /* DeviceActivityApp.app */,
 				C5F7A7D92A8037A8009DECF9 /* MonitorReport.appex */,
 				00BE9C332C52B1C600EB3427 /* MyReportExtension.appex */,
+				00BE9CED2C5A64C000EB3427 /* DeviceActivityMonitorExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -246,6 +288,7 @@
 				00BE9BD22C50495100EB3427 /* LimitsView.swift */,
 				00BE9BEC2C513B6B00EB3427 /* AddLimitView.swift */,
 				00BE9CAA2C594F9900EB3427 /* LimitItemView.swift */,
+				00BE9CE72C5A648500EB3427 /* DailyLimitsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -311,6 +354,23 @@
 			productReference = 00BE9C332C52B1C600EB3427 /* MyReportExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		00BE9CEC2C5A64C000EB3427 /* DeviceActivityMonitorExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00BE9CF72C5A64C000EB3427 /* Build configuration list for PBXNativeTarget "DeviceActivityMonitorExtension" */;
+			buildPhases = (
+				00BE9CE92C5A64C000EB3427 /* Sources */,
+				00BE9CEA2C5A64C000EB3427 /* Frameworks */,
+				00BE9CEB2C5A64C000EB3427 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DeviceActivityMonitorExtension;
+			productName = DeviceActivityMonitorExtension;
+			productReference = 00BE9CED2C5A64C000EB3427 /* DeviceActivityMonitorExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C5F7A7982A80209E009DECF9 /* DeviceActivityApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C5F7A7A72A80209E009DECF9 /* Build configuration list for PBXNativeTarget "DeviceActivityApp" */;
@@ -326,6 +386,7 @@
 			dependencies = (
 				C5F7A7E42A8037A8009DECF9 /* PBXTargetDependency */,
 				00BE9C3E2C52B1C600EB3427 /* PBXTargetDependency */,
+				00BE9CF52C5A64C000EB3427 /* PBXTargetDependency */,
 			);
 			name = DeviceActivityApp;
 			productName = DeviceActivityApp;
@@ -362,6 +423,9 @@
 					00BE9C322C52B1C600EB3427 = {
 						CreatedOnToolsVersion = 15.4;
 					};
+					00BE9CEC2C5A64C000EB3427 = {
+						CreatedOnToolsVersion = 15.4;
+					};
 					C5F7A7982A80209E009DECF9 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
@@ -386,6 +450,7 @@
 				C5F7A7982A80209E009DECF9 /* DeviceActivityApp */,
 				C5F7A7D82A8037A8009DECF9 /* MonitorReport */,
 				00BE9C322C52B1C600EB3427 /* MyReportExtension */,
+				00BE9CEC2C5A64C000EB3427 /* DeviceActivityMonitorExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -397,6 +462,13 @@
 			files = (
 				00BE9C482C52B51900EB3427 /* munch.png in Resources */,
 				00BE9C462C52B23200EB3427 /* appIcon.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00BE9CEB2C5A64C000EB3427 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +499,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		00BE9CE92C5A64C000EB3427 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00BE9CFC2C5A684900EB3427 /* DailyLimitsViewModel.swift in Sources */,
+				00BE9CF12C5A64C000EB3427 /* DeviceActivityMonitorExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C5F7A7952A80209E009DECF9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -441,11 +522,14 @@
 				00BE9CAB2C594F9900EB3427 /* LimitItemView.swift in Sources */,
 				00BE9BD32C50495100EB3427 /* LimitsView.swift in Sources */,
 				C5F7A7C02A802573009DECF9 /* RequestAuthorization.swift in Sources */,
+				00BE9CE62C5A647100EB3427 /* DailyLimitsViewModel.swift in Sources */,
 				00BE9BC52C4FB8A500EB3427 /* QuizView.swift in Sources */,
 				00BE9BF82C525F8600EB3427 /* BackgroundTaskManager.swift in Sources */,
 				00BE9BED2C513B6B00EB3427 /* AddLimitView.swift in Sources */,
 				00BE9BCC2C4FBAC200EB3427 /* Flashcard.swift in Sources */,
+				00BE9CE82C5A648500EB3427 /* DailyLimitsView.swift in Sources */,
 				C5F7A7C32A80274A009DECF9 /* Loading.swift in Sources */,
+				00BE9CFB2C5A683C00EB3427 /* DeviceActivityMonitorExtension.swift in Sources */,
 				C5F7A79D2A80209E009DECF9 /* DeviceActivityApp.swift in Sources */,
 				00BE9CB72C59924400EB3427 /* ColorExtensions.swift in Sources */,
 			);
@@ -473,6 +557,11 @@
 			isa = PBXTargetDependency;
 			target = 00BE9C322C52B1C600EB3427 /* MyReportExtension */;
 			targetProxy = 00BE9C3D2C52B1C600EB3427 /* PBXContainerItemProxy */;
+		};
+		00BE9CF52C5A64C000EB3427 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00BE9CEC2C5A64C000EB3427 /* DeviceActivityMonitorExtension */;
+			targetProxy = 00BE9CF42C5A64C000EB3427 /* PBXContainerItemProxy */;
 		};
 		C5F7A7E42A8037A8009DECF9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -537,6 +626,69 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = rileydurbin.DeviceActivityApp.MyReportExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		00BE9CF82C5A64C000EB3427 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitorExtension/DeviceActivityMonitorExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H53TESVT5X;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeviceActivityMonitorExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitorExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rileydurbin.DeviceActivityApp.DeviceActivityMonitorExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		00BE9CF92C5A64C000EB3427 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitorExtension/DeviceActivityMonitorExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H53TESVT5X;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeviceActivityMonitorExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitorExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rileydurbin.DeviceActivityApp.DeviceActivityMonitorExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -787,6 +939,15 @@
 			buildConfigurations = (
 				00BE9C402C52B1C600EB3427 /* Debug */,
 				00BE9C412C52B1C600EB3427 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00BE9CF72C5A64C000EB3427 /* Build configuration list for PBXNativeTarget "DeviceActivityMonitorExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00BE9CF82C5A64C000EB3427 /* Debug */,
+				00BE9CF92C5A64C000EB3427 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
