@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		005D365F2C5AA67700935D67 /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00BE9C342C52B1C600EB3427 /* ManagedSettings.framework */; };
+		005D36622C5AA67700935D67 /* ShieldActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D36612C5AA67700935D67 /* ShieldActionExtension.swift */; };
+		005D36672C5AA67700935D67 /* ShieldActionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 005D365E2C5AA67700935D67 /* ShieldActionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		00BE9BC52C4FB8A500EB3427 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC42C4FB8A500EB3427 /* QuizView.swift */; };
 		00BE9BCB2C4FBAB800EB3427 /* QuizletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC82C4FB9E300EB3427 /* QuizletViewModel.swift */; };
 		00BE9BCC2C4FBAC200EB3427 /* Flashcard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC62C4FB9CD00EB3427 /* Flashcard.swift */; };
@@ -44,6 +47,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		005D36652C5AA67700935D67 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5F7A7912A80209E009DECF9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 005D365D2C5AA67700935D67;
+			remoteInfo = ShieldActionExtension;
+		};
 		00BE9C3D2C52B1C600EB3427 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C5F7A7912A80209E009DECF9 /* Project object */;
@@ -68,6 +78,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				00BE9C3F2C52B1C600EB3427 /* MyReportExtension.appex in Embed Foundation Extensions */,
+				005D36672C5AA67700935D67 /* ShieldActionExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,6 +97,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		005D365E2C5AA67700935D67 /* ShieldActionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShieldActionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		005D36612C5AA67700935D67 /* ShieldActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldActionExtension.swift; sourceTree = "<group>"; };
+		005D36632C5AA67700935D67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		005D36642C5AA67700935D67 /* ShieldActionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShieldActionExtension.entitlements; sourceTree = "<group>"; };
 		00BE9BC42C4FB8A500EB3427 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		00BE9BC62C4FB9CD00EB3427 /* Flashcard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flashcard.swift; sourceTree = "<group>"; };
 		00BE9BC82C4FB9E300EB3427 /* QuizletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizletViewModel.swift; sourceTree = "<group>"; };
@@ -130,6 +145,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		005D365B2C5AA67700935D67 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				005D365F2C5AA67700935D67 /* ManagedSettings.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00BE9C302C52B1C600EB3427 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -156,6 +179,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		005D36602C5AA67700935D67 /* ShieldActionExtension */ = {
+			isa = PBXGroup;
+			children = (
+				005D36612C5AA67700935D67 /* ShieldActionExtension.swift */,
+				005D36632C5AA67700935D67 /* Info.plist */,
+				005D36642C5AA67700935D67 /* ShieldActionExtension.entitlements */,
+			);
+			path = ShieldActionExtension;
+			sourceTree = "<group>";
+		};
 		00BE9BCA2C4FBA7C00EB3427 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +218,7 @@
 				C5F7A79B2A80209E009DECF9 /* DeviceActivityApp */,
 				C5F7A7DA2A8037A8009DECF9 /* MonitorReport */,
 				00BE9C382C52B1C600EB3427 /* MyReportExtension */,
+				005D36602C5AA67700935D67 /* ShieldActionExtension */,
 				C5F7A7AF2A8021CA009DECF9 /* Frameworks */,
 				C5F7A79A2A80209E009DECF9 /* Products */,
 			);
@@ -196,6 +230,7 @@
 				C5F7A7992A80209E009DECF9 /* DeviceActivityApp.app */,
 				C5F7A7D92A8037A8009DECF9 /* MonitorReport.appex */,
 				00BE9C332C52B1C600EB3427 /* MyReportExtension.appex */,
+				005D365E2C5AA67700935D67 /* ShieldActionExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -294,6 +329,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		005D365D2C5AA67700935D67 /* ShieldActionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 005D366A2C5AA67700935D67 /* Build configuration list for PBXNativeTarget "ShieldActionExtension" */;
+			buildPhases = (
+				005D365A2C5AA67700935D67 /* Sources */,
+				005D365B2C5AA67700935D67 /* Frameworks */,
+				005D365C2C5AA67700935D67 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShieldActionExtension;
+			productName = ShieldActionExtension;
+			productReference = 005D365E2C5AA67700935D67 /* ShieldActionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		00BE9C322C52B1C600EB3427 /* MyReportExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00BE9C422C52B1C600EB3427 /* Build configuration list for PBXNativeTarget "MyReportExtension" */;
@@ -326,6 +378,7 @@
 			dependencies = (
 				C5F7A7E42A8037A8009DECF9 /* PBXTargetDependency */,
 				00BE9C3E2C52B1C600EB3427 /* PBXTargetDependency */,
+				005D36662C5AA67700935D67 /* PBXTargetDependency */,
 			);
 			name = DeviceActivityApp;
 			productName = DeviceActivityApp;
@@ -359,6 +412,9 @@
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					005D365D2C5AA67700935D67 = {
+						CreatedOnToolsVersion = 15.4;
+					};
 					00BE9C322C52B1C600EB3427 = {
 						CreatedOnToolsVersion = 15.4;
 					};
@@ -386,11 +442,19 @@
 				C5F7A7982A80209E009DECF9 /* DeviceActivityApp */,
 				C5F7A7D82A8037A8009DECF9 /* MonitorReport */,
 				00BE9C322C52B1C600EB3427 /* MyReportExtension */,
+				005D365D2C5AA67700935D67 /* ShieldActionExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		005D365C2C5AA67700935D67 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00BE9C312C52B1C600EB3427 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -419,6 +483,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		005D365A2C5AA67700935D67 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				005D36622C5AA67700935D67 /* ShieldActionExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00BE9C2F2C52B1C600EB3427 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -469,6 +541,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		005D36662C5AA67700935D67 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 005D365D2C5AA67700935D67 /* ShieldActionExtension */;
+			targetProxy = 005D36652C5AA67700935D67 /* PBXContainerItemProxy */;
+		};
 		00BE9C3E2C52B1C600EB3427 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 00BE9C322C52B1C600EB3427 /* MyReportExtension */;
@@ -482,6 +559,69 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		005D36682C5AA67700935D67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = ShieldActionExtension/ShieldActionExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H53TESVT5X;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShieldActionExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ShieldActionExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rileydurbin.DeviceActivityApp.ShieldActionExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		005D36692C5AA67700935D67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = ShieldActionExtension/ShieldActionExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H53TESVT5X;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShieldActionExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ShieldActionExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rileydurbin.DeviceActivityApp.ShieldActionExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		00BE9C402C52B1C600EB3427 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -782,6 +922,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		005D366A2C5AA67700935D67 /* Build configuration list for PBXNativeTarget "ShieldActionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				005D36682C5AA67700935D67 /* Debug */,
+				005D36692C5AA67700935D67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		00BE9C422C52B1C600EB3427 /* Build configuration list for PBXNativeTarget "MyReportExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
