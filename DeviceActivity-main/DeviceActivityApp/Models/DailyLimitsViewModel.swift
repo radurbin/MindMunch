@@ -52,7 +52,7 @@ class DailyLimitsViewModel: ObservableObject {
     
     func startTimer() {
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
             self?.updateDailyLimits()
         }
         print("Timer started")
