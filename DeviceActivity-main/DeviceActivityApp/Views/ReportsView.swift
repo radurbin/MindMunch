@@ -16,6 +16,7 @@ struct ReportsView: View {
                     scale: 1)
             DeviceActivityReporterAdapter()
         }
+        .environment(\.colorScheme, .dark)
     }
     
 }

@@ -53,6 +53,7 @@ struct MainTabView: View {
                     Label("Limits", systemImage: "timer")
                 }
         }
+        .environment(\.colorScheme, .dark)
     }
 }
 

@@ -57,6 +57,7 @@ struct LimitsView: View {
             }
             .background(Color.clear) // Ensure the overall background is clear
         }
+        .environment(\.colorScheme, .dark)
     }
 
     private func startTimer() {

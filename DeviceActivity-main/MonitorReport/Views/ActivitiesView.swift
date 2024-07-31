@@ -33,6 +33,7 @@ struct ActivitiesView: View {
             LinearGradient(gradient: Gradient(colors: [Color(hex: "#0B132B"), Color(hex: "#1C2541")]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
         )
+        .environment(\.colorScheme, .dark)
     }
     
     private func formatUsageTime(_ duration: TimeInterval) -> String {

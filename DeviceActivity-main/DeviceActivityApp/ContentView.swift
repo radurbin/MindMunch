@@ -17,6 +17,7 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .environment(\.colorScheme, .dark)
     }
 }
 

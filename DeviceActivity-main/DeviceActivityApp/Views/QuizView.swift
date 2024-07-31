@@ -92,6 +92,7 @@ struct QuizView: View {
                 }
             }
         }
+        .environment(\.colorScheme, .dark)
     }
 }
 

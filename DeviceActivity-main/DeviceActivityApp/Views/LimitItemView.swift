@@ -119,6 +119,7 @@ struct LimitItemView: View {
             QuizPopupView(quizViewModel: quizViewModel, isShowingQuiz: $isShowingQuiz, showQuestion: $showQuestion)
         }
         .background(Color.clear) // Ensure background is clear
+        .environment(\.colorScheme, .dark)
     }
 }
 
@@ -214,5 +215,6 @@ struct QuizPopupView: View {
             .cornerRadius(10)
             .shadow(radius: 10)
         }
+        .environment(\.colorScheme, .dark)
     }
 }
