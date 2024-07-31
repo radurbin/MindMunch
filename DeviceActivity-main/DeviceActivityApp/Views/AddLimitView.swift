@@ -18,72 +18,66 @@ struct AddLimitView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color(hex: "#0B132B"), Color(hex: "#1C2541")]), startPoint: .top, endPoint: .bottom)
-                    .edgesIgnoringSafeArea(.all)
+            VStack {
+                FamilyActivityPicker(selection: $activitySelection)
+                    .padding()
+                    .background(Color(UIColor.systemGroupedBackground))
+                    .cornerRadius(10)
+                    .shadow(radius: 1)
+                    .padding(.bottom, 20)
                 
-                VStack {
-                    FamilyActivityPicker(selection: $activitySelection)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(10)
-                        .shadow(radius: 1)
-                        .padding(.bottom, 20)
-                    
-                    HStack {
-                        Text("Hours")
-                            .foregroundColor(Color(hex: "#FFFFFF"))
-                        Picker("", selection: $selectedHours) {
-                            ForEach(0..<24) { hour in
-                                Text("\(hour)").tag(hour)
-                            }
+                HStack {
+                    Text("Hours")
+                    Picker("", selection: $selectedHours) {
+                        ForEach(0..<24) { hour in
+                            Text("\(hour)").tag(hour)
                         }
-                        .frame(maxWidth: .infinity)
-                        .clipped()
-                        .labelsHidden()
                     }
-                    
-                    HStack {
-                        Text("Minutes")
-                            .foregroundColor(Color(hex: "#FFFFFF"))
-                        Picker("", selection: $selectedMinutes) {
-                            ForEach(0..<60) { minute in
-                                Text("\(minute)").tag(minute)
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .clipped()
-                        .labelsHidden()
-                    }
-                    
-                    Button(action: {
-                        viewModel.addAppLimit(selection: activitySelection, hours: selectedHours, minutes: selectedMinutes)
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Save")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color(hex: "#3A506B"))
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding()
-                    
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Cancel")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+                    .labelsHidden()
                 }
-                .navigationTitle("New Limit")
+                
+                HStack {
+                    Text("Minutes")
+                    Picker("", selection: $selectedMinutes) {
+                        ForEach(0..<60) { minute in
+                            Text("\(minute)").tag(minute)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+                    .labelsHidden()
+                }
+                
+                Button(action: {
+                    viewModel.addAppLimit(selection: activitySelection, hours: selectedHours, minutes: selectedMinutes)
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Save")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .padding()
+                
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Cancel")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
                 .padding()
             }
+            .navigationTitle("New Limit")
+            .padding()
         }
+        .environment(\.colorScheme, .dark)
     }
 }

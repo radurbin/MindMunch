@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ManagedSettings
 
 struct LimitItemView: View {
     var limit: AppLimit
@@ -17,22 +18,25 @@ struct LimitItemView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
+            // Display the app tokens in a list
+            VStack(alignment: .leading, spacing: 5) {
+                           ForEach(Array(limit.selection.applicationTokens), id: \.self) { appToken in
+                               Label(appToken) // Display the app token
+                                   .font(.headline)
+                                   .foregroundColor(Color(hex: "#FFFFFF"))
+                           }
+                       }
+            
+            VStack(alignment: .leading) {
+                Text("Limit: \(limit.hours)h \(limit.minutes)m")
+                    .foregroundColor(Color(hex: "#6C757D"))
+                Text("Remaining: \(Int(limit.remainingTime) / 3600)h \(Int(limit.remainingTime) % 3600 / 60)m \(Int(limit.remainingTime) % 60)s")
+                    .foregroundColor(Color(hex: "#6C757D"))
+            }
+            .padding(.leading, 4)
+            .padding(.bottom, 10)
+            
             HStack {
-                if let appToken = limit.selection.applicationTokens.first {
-                    Image(systemName: "app.fill")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .padding()
-                    VStack(alignment: .leading) {
-                        Label(appToken) // Replace with actual app name
-                            .font(.headline)
-                            .foregroundColor(Color(hex: "#FFFFFF"))
-                        Text("Limit: \(limit.hours)h \(limit.minutes)m")
-                            .foregroundColor(Color(hex: "#6C757D"))
-                        Text("Remaining: \(Int(limit.remainingTime) / 3600)h \(Int(limit.remainingTime) % 3600 / 60)m \(Int(limit.remainingTime) % 60)s")
-                            .foregroundColor(Color(hex: "#6C757D"))
-                    }
-                }
                 Spacer()
                 if confirmLimitID != limit.id {
                     Button("Add 15 minutes") {
@@ -48,9 +52,9 @@ struct LimitItemView: View {
                     .background(Color(hex: "#3A506B"))
                     .foregroundColor(.white)
                     .cornerRadius(8)
-                    .padding(.trailing, 10)
                 }
             }
+
             if confirmLimitID == limit.id {
                 if quizViewModel.correctAnswersInSession >= 3 {
                     Button(action: {
@@ -118,10 +122,16 @@ struct LimitItemView: View {
         .sheet(isPresented: $isShowingQuiz) {
             QuizPopupView(quizViewModel: quizViewModel, isShowingQuiz: $isShowingQuiz, showQuestion: $showQuestion)
         }
-        .background(Color.clear) // Ensure background is clear
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color(hex: "#1C2541"))
+                .shadow(radius: 5)
+        )
         .environment(\.colorScheme, .dark)
     }
 }
+
 
 struct QuizPopupView: View {
     @StateObject var quizViewModel: QuizletViewModel

@@ -33,6 +33,7 @@ struct AppLimit: Identifiable, Codable {
     }
 }
 
+
 class LimitsViewModel: ObservableObject {
     @Published var activitySelection: FamilyActivitySelection = FamilyActivitySelection() {
         didSet {
