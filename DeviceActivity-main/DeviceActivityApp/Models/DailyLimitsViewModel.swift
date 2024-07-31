@@ -43,37 +43,9 @@ class DailyLimitsViewModel: ObservableObject {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private let dailyLimitsKey = "dailyLimits"
-    private var timer: Timer?
     
     init() {
         loadDailyLimits()
-        startTimer()
-    }
-    
-    func startTimer() {
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
-            self?.updateDailyLimits()
-        }
-        print("Timer started")
-    }
-    
-    func updateDailyLimits() {
-        print("Updating daily limits")
-        let currentTime = Date()
-        for (index, limit) in dailyLimits.enumerated() {
-            if dailyLimits[index].remainingTime > 0 {
-                let elapsedTime = currentTime.timeIntervalSince(limit.lastUpdateTime)
-                dailyLimits[index].remainingTime -= elapsedTime
-                dailyLimits[index].lastUpdateTime = currentTime
-                print("Updated limit for \(limit.selection.applicationTokens): \(dailyLimits[index].remainingTime) seconds remaining")
-                if dailyLimits[index].remainingTime <= 0 {
-                    dailyLimits[index].remainingTime = 0
-                    lockApps(for: limit.selection)
-                }
-            }
-        }
-        saveDailyLimits()
     }
     
     func lockApps(for selection: FamilyActivitySelection) {

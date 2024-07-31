@@ -95,22 +95,25 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
 extension AppDelegate {
     func setupDeviceActivitySchedule() {
-        // Define the schedule
+        // Load the daily limits from the view model
+        let viewModel = DailyLimitsViewModel()
+        viewModel.loadDailyLimits()
+        
+        // Define the schedules and events
+        var events = [DeviceActivityEvent.Name: DeviceActivityEvent]()
+        
+        for limit in viewModel.dailyLimits {
+            let eventName = DeviceActivityEvent.Name(UUID().uuidString)
+            let threshold = DateComponents(hour: limit.hours, minute: limit.minutes)
+            let event = DeviceActivityEvent(threshold: threshold)
+            events[eventName] = event
+        }
+        
         let schedule = DeviceActivitySchedule(
             intervalStart: DateComponents(hour: 0, minute: 0),
             intervalEnd: DateComponents(hour: 23, minute: 59),
             repeats: true
         )
-        
-        // Define the event
-        let event = DeviceActivityEvent(
-            threshold: DateComponents(hour: 1) // Trigger every hour
-        )
-        
-        // Define the events dictionary
-        let events: [DeviceActivityEvent.Name: DeviceActivityEvent] = [
-            .init("hourlyCheck"): event
-        ]
         
         // Start monitoring
         let center = DeviceActivityCenter()
