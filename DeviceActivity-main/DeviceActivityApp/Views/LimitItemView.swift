@@ -38,7 +38,7 @@ struct LimitItemView: View {
             
             HStack {
                 Spacer()
-                if confirmLimitID != limit.id {
+                if !(quizViewModel.correctAnswersInSession >= 3 && confirmLimitID == limit.id) {
                     Button("Add 15 minutes") {
                         confirmLimitID = limit.id
                         showQuestion = true
