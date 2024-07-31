@@ -10,28 +10,29 @@ import FamilyControls
 
 class DeviceActivityMonitorExtension: DeviceActivityMonitor {
     private let viewModel = DailyLimitsViewModel()
-    
+
     override func intervalDidStart(for activity: DeviceActivityName) {
         super.intervalDidStart(for: activity)
         print("Interval did start for activity: \(activity.rawValue)")
         checkAndEnforceLimits()
     }
-    
+
     override func intervalDidEnd(for activity: DeviceActivityName) {
         super.intervalDidEnd(for: activity)
         print("Interval did end for activity: \(activity.rawValue)")
         checkAndEnforceLimits()
     }
-    
+
     override func eventDidReachThreshold(_ event: DeviceActivityEvent.Name, activity: DeviceActivityName) {
         super.eventDidReachThreshold(event, activity: activity)
         print("Event did reach threshold for event: \(event.rawValue), activity: \(activity.rawValue)")
         checkAndEnforceLimits()
     }
-    
+
     private func checkAndEnforceLimits() {
         print("Checking and enforcing limits")
         viewModel.loadDailyLimits()
+
         for limit in viewModel.dailyLimits {
             // Here we should check the actual usage time rather than remainingTime.
             // We need to adjust this limit based on the actual usage reported by DeviceActivity.
