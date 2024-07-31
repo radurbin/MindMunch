@@ -33,6 +33,8 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         print("Checking and enforcing limits")
         viewModel.loadDailyLimits()
         for limit in viewModel.dailyLimits {
+            // Here we should check the actual usage time rather than remainingTime.
+            // We need to adjust this limit based on the actual usage reported by DeviceActivity.
             if limit.remainingTime <= 0 {
                 viewModel.lockApps(for: limit.selection)
                 print("Locking apps for limit: \(limit.selection.applicationTokens)")

@@ -93,6 +93,13 @@ class DailyLimitsViewModel: ObservableObject {
         if let limits = try? decoder.decode([DailyLimit].self, from: data) {
             self.dailyLimits = limits
             print("Daily limits loaded from UserDefaults.")
+            for limit in limits {
+                let remainingTime = limit.remainingTime
+                let hours = Int(remainingTime) / 3600
+                let minutes = (Int(remainingTime) % 3600) / 60
+                let seconds = Int(remainingTime) % 60
+                print("Loaded limit for \(limit.selection.applicationTokens): \(hours)h \(minutes)m \(seconds)s remaining")
+            }
         } else {
             print("Failed to decode daily limits from UserDefaults.")
         }

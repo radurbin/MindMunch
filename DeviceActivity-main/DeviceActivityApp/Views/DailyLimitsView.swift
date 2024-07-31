@@ -66,6 +66,20 @@ struct DailyLimitsView: View {
             }
             .navigationTitle("Daily Limits")
             .padding()
+            .onAppear {
+                printRemainingTimes()
+            }
+        }
+    }
+    
+    private func printRemainingTimes() {
+        viewModel.loadDailyLimits()
+        for limit in viewModel.dailyLimits {
+            let remainingTime = limit.remainingTime
+            let hours = Int(remainingTime) / 3600
+            let minutes = (Int(remainingTime) % 3600) / 60
+            let seconds = Int(remainingTime) % 60
+            print("Remaining time for \(limit.selection.applicationTokens): \(hours)h \(minutes)m \(seconds)s")
         }
     }
 }
