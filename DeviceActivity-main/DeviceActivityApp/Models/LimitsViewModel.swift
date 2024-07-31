@@ -86,24 +86,42 @@ class LimitsViewModel: ObservableObject {
                 if appLimits[index].remainingTime <= 0 {
                     appLimits[index].remainingTime = 0
                     lockApps(for: limit.selection)
-                    // appLimits[index].lastUpdateTime = Date.distantFuture // Remove this line
                 }
             }
         }
         if needsUpdate {
             saveAppLimits()
+            setShieldRestrictions() // Update shield restrictions immediately after usage update
         }
     }
     
     func lockApps(for selection: FamilyActivitySelection) {
-        store.shield.applications = selection.applicationTokens.isEmpty ? nil : selection.applicationTokens
-        store.shield.applicationCategories = selection.categoryTokens.isEmpty ? nil : ShieldSettings.ActivityCategoryPolicy.specific(selection.categoryTokens)
+        var allAppTokens = Set<ApplicationToken>()
+        var allCategoryTokens = Set<ActivityCategoryToken>()
+        
+        for limit in appLimits where limit.remainingTime <= 0 {
+            allAppTokens.formUnion(limit.selection.applicationTokens)
+            allCategoryTokens.formUnion(limit.selection.categoryTokens)
+        }
+        
+        store.shield.applications = allAppTokens.isEmpty ? nil : allAppTokens
+        store.shield.applicationCategories = allCategoryTokens.isEmpty ? nil : ShieldSettings.ActivityCategoryPolicy.specific(allCategoryTokens)
+        
         print("Apps locked.")
     }
     
     func unlockApps(for selection: FamilyActivitySelection) {
-        store.shield.applications = nil
-        store.shield.applicationCategories = nil
+        var allAppTokens = Set<ApplicationToken>()
+        var allCategoryTokens = Set<ActivityCategoryToken>()
+        
+        for limit in appLimits where limit.remainingTime > 0 {
+            allAppTokens.formUnion(limit.selection.applicationTokens)
+            allCategoryTokens.formUnion(limit.selection.categoryTokens)
+        }
+        
+        store.shield.applications = allAppTokens.isEmpty ? nil : allAppTokens
+        store.shield.applicationCategories = allCategoryTokens.isEmpty ? nil : ShieldSettings.ActivityCategoryPolicy.specific(allCategoryTokens)
+        
         print("Apps unlocked.")
     }
     
@@ -165,33 +183,38 @@ class LimitsViewModel: ObservableObject {
     }
     
     func setShieldRestrictions() {
-        if isLocked {
-            store.shield.applications = activitySelection.applicationTokens.isEmpty ? nil : activitySelection.applicationTokens
-            store.shield.applicationCategories = activitySelection.categoryTokens.isEmpty ? nil : ShieldSettings.ActivityCategoryPolicy.specific(activitySelection.categoryTokens)
-            print("Apps locked.")
-        } else {
-            store.shield.applications = nil
-            store.shield.applicationCategories = nil
-            print("Apps unlocked.")
+        var allAppTokens = Set<ApplicationToken>()
+        var allCategoryTokens = Set<ActivityCategoryToken>()
+        
+        for limit in appLimits {
+            if limit.remainingTime <= 0 {
+                allAppTokens.formUnion(limit.selection.applicationTokens)
+                allCategoryTokens.formUnion(limit.selection.categoryTokens)
+            }
         }
+        
+        store.shield.applications = allAppTokens.isEmpty ? nil : allAppTokens
+        store.shield.applicationCategories = allCategoryTokens.isEmpty ? nil : ShieldSettings.ActivityCategoryPolicy.specific(allCategoryTokens)
+        
+        print("Shield restrictions updated.")
     }
     
     func addAppLimit(selection: FamilyActivitySelection, hours: Int, minutes: Int) {
         let newLimit = AppLimit(selection: selection, hours: hours, minutes: minutes)
         appLimits.append(newLimit)
+        updateAppUsage() // Ensure the app usage is updated immediately after adding a new limit
     }
     
     func deleteAppLimit(at index: Int) {
-        let limit = appLimits.remove(at: index)
-        unlockApps(for: limit.selection)
-        saveAppLimits()
+        appLimits.remove(at: index)
+        setShieldRestrictions() // Ensure shield restrictions are updated immediately after deleting a limit
     }
     
     func extendAppLimit(for id: UUID, by minutes: Int) {
         if let index = appLimits.firstIndex(where: { $0.id == id }) {
             appLimits[index].extendTime(by: minutes)
-            unlockApps(for: appLimits[index].selection)
             saveAppLimits()
+            setShieldRestrictions() // Ensure shield restrictions are updated immediately after extending a limit
         }
     }
 }
