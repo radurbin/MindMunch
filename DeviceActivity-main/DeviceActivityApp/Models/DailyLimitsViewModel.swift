@@ -40,8 +40,8 @@ class DailyLimitsViewModel: ObservableObject {
         }
     }
     
-    private let encoder = JSONEncoder()
-    private let decoder = JSONDecoder()
+    private let encoder = PropertyListEncoder()
+    private let decoder = PropertyListDecoder()
     private let dailyLimitsKey = "dailyLimits"
     
     init() {
@@ -64,23 +64,9 @@ class DailyLimitsViewModel: ObservableObject {
     
     func saveSelection() {
         let defaults = UserDefaults.standard
-        do {
-            let data = try encoder.encode(activitySelection)
-            defaults.set(data, forKey: "activitySelection")
+        if let encodedSelection = try? encoder.encode(activitySelection) {
+            defaults.set(encodedSelection, forKey: "activitySelection")
             print("Selection saved to UserDefaults.")
-        } catch {
-            print("Failed to save selection: \(error.localizedDescription)")
-        }
-    }
-    
-    func saveDailyLimits() {
-        let defaults = UserDefaults.standard
-        do {
-            let data = try encoder.encode(dailyLimits)
-            defaults.set(data, forKey: dailyLimitsKey)
-            print("Daily limits saved to UserDefaults.")
-        } catch {
-            print("Failed to save daily limits: \(error.localizedDescription)")
         }
     }
     
@@ -105,10 +91,21 @@ class DailyLimitsViewModel: ObservableObject {
         }
     }
     
+    func saveDailyLimits() {
+        let defaults = UserDefaults.standard
+        if let encodedLimits = try? encoder.encode(dailyLimits) {
+            defaults.set(encodedLimits, forKey: dailyLimitsKey)
+            print("Daily limits saved to UserDefaults.")
+        } else {
+            print("Failed to save daily limits.")
+        }
+    }
+    
     func addDailyLimit(selection: FamilyActivitySelection, hours: Int, minutes: Int) {
         let newLimit = DailyLimit(selection: selection, hours: hours, minutes: minutes)
         dailyLimits.append(newLimit)
         print("Added new limit for \(selection.applicationTokens): \(hours) hours, \(minutes) minutes")
+        saveDailyLimits()
     }
     
     func deleteDailyLimit(at index: Int) {

@@ -93,36 +93,42 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
 }
 
+
 extension AppDelegate {
     func setupDeviceActivitySchedule() {
         // Load the daily limits from the view model
         let viewModel = DailyLimitsViewModel()
         viewModel.loadDailyLimits()
         
-        // Define the schedules and events
-        var events = [DeviceActivityEvent.Name: DeviceActivityEvent]()
+        let center = DeviceActivityCenter()
         
         for limit in viewModel.dailyLimits {
-            let eventName = DeviceActivityEvent.Name(UUID().uuidString)
-            let threshold = DateComponents(hour: limit.hours, minute: limit.minutes)
-            let event = DeviceActivityEvent(threshold: threshold)
-            events[eventName] = event
-        }
-        
-        let schedule = DeviceActivitySchedule(
-            intervalStart: DateComponents(hour: 0, minute: 0),
-            intervalEnd: DateComponents(hour: 23, minute: 59),
-            repeats: true
-        )
-        
-        // Start monitoring
-        let center = DeviceActivityCenter()
-        do {
-            try center.startMonitoring(.dailyCheck, during: schedule, events: events)
-            print("Started monitoring for dailyCheck with schedule and events")
-        } catch {
-            print("Failed to start monitoring: \(error.localizedDescription)")
+            let activity = DeviceActivityName(limit.id.uuidString)
+            let eventName = DeviceActivityEvent.Name("ScreenTimeMonitoring")
+            
+            let event = DeviceActivityEvent(
+                applications: limit.selection.applicationTokens,
+                categories: limit.selection.categoryTokens,
+                webDomains: limit.selection.webDomainTokens,
+                threshold: DateComponents(hour: limit.hours, minute: limit.minutes)
+            )
+            
+            let schedule = DeviceActivitySchedule(
+                intervalStart: DateComponents(hour: 0, minute: 0, second: 0),
+                intervalEnd: DateComponents(hour: 23, minute: 59, second: 59),
+                repeats: true
+            )
+            
+            do {
+                try center.startMonitoring(
+                    activity,
+                    during: schedule,
+                    events: [eventName: event]
+                )
+                print("Started monitoring for \(activity.rawValue) with event \(eventName.rawValue)")
+            } catch {
+                print("Failed to start monitoring for \(activity.rawValue): \(error.localizedDescription)")
+            }
         }
     }
 }
-

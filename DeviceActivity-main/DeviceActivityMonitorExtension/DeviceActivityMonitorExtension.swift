@@ -11,37 +11,41 @@ import FamilyControls
 class DeviceActivityMonitorExtension: DeviceActivityMonitor {
     private let viewModel = DailyLimitsViewModel()
 
+    override func eventDidReachThreshold(_ event: DeviceActivityEvent.Name, activity: DeviceActivityName) {
+        super.eventDidReachThreshold(event, activity: activity)
+        print("Event did reach threshold for event: \(event.rawValue), activity: \(activity.rawValue)")
+
+        // Handle the threshold event by locking the apps
+        if let limit = viewModel.dailyLimits.first(where: { $0.id.uuidString == activity.rawValue }) {
+            viewModel.lockApps(for: limit.selection)
+            print("Locking apps for limit: \(limit.selection.applicationTokens)")
+        } else {
+            print("No matching limit found for activity: \(activity.rawValue)")
+        }
+    }
+
     override func intervalDidStart(for activity: DeviceActivityName) {
         super.intervalDidStart(for: activity)
         print("Interval did start for activity: \(activity.rawValue)")
-        checkAndEnforceLimits()
     }
 
     override func intervalDidEnd(for activity: DeviceActivityName) {
         super.intervalDidEnd(for: activity)
         print("Interval did end for activity: \(activity.rawValue)")
-        checkAndEnforceLimits()
     }
 
-    override func eventDidReachThreshold(_ event: DeviceActivityEvent.Name, activity: DeviceActivityName) {
-        super.eventDidReachThreshold(event, activity: activity)
-        print("Event did reach threshold for event: \(event.rawValue), activity: \(activity.rawValue)")
-        checkAndEnforceLimits()
+    override func intervalWillStartWarning(for activity: DeviceActivityName) {
+        super.intervalWillStartWarning(for: activity)
+        print("Interval will start warning for activity: \(activity.rawValue)")
     }
 
-    private func checkAndEnforceLimits() {
-        print("Checking and enforcing limits")
-        viewModel.loadDailyLimits()
+    override func intervalWillEndWarning(for activity: DeviceActivityName) {
+        super.intervalWillEndWarning(for: activity)
+        print("Interval will end warning for activity: \(activity.rawValue)")
+    }
 
-        for limit in viewModel.dailyLimits {
-            // Here we should check the actual usage time rather than remainingTime.
-            // We need to adjust this limit based on the actual usage reported by DeviceActivity.
-            if limit.remainingTime <= 0 {
-                viewModel.lockApps(for: limit.selection)
-                print("Locking apps for limit: \(limit.selection.applicationTokens)")
-            } else {
-                print("Limit not reached for \(limit.selection.applicationTokens): \(limit.remainingTime) seconds remaining")
-            }
-        }
+    override func eventWillReachThresholdWarning(_ event: DeviceActivityEvent.Name, activity: DeviceActivityName) {
+        super.eventWillReachThresholdWarning(event, activity: activity)
+        print("Event will reach threshold warning for event: \(event.rawValue), activity: \(activity.rawValue)")
     }
 }
