@@ -200,10 +200,13 @@ class LimitsViewModel: ObservableObject {
     }
     
     func addAppLimit(selection: FamilyActivitySelection, hours: Int, minutes: Int) {
-        let newLimit = AppLimit(selection: selection, hours: hours, minutes: minutes)
-        appLimits.append(newLimit)
-        updateAppUsage() // Ensure the app usage is updated immediately after adding a new limit
-    }
+            let newLimit = AppLimit(selection: selection, hours: hours, minutes: minutes)
+            appLimits.append(newLimit)
+            if hours == 0 && minutes == 0 {
+                lockApps(for: selection)
+            }
+        updateAppUsage()
+        }
     
     func deleteAppLimit(at index: Int) {
         appLimits.remove(at: index)
