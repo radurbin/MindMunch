@@ -15,7 +15,6 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         super.eventDidReachThreshold(event, activity: activity)
         print("Event did reach threshold for event: \(event.rawValue), activity: \(activity.rawValue)")
 
-        // Handle the threshold event by locking the apps
         if let limit = viewModel.dailyLimits.first(where: { $0.id.uuidString == activity.rawValue }) {
             viewModel.lockApps(for: limit.selection)
             print("Locking apps for limit: \(limit.selection.applicationTokens)")

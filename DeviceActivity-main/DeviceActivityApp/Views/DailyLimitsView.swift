@@ -68,6 +68,7 @@ struct DailyLimitsView: View {
             .padding()
             .onAppear {
                 printRemainingTimes()
+                viewModel.setupDeviceActivitySchedule() // Ensure schedule is set up when the view appears
             }
         }
     }

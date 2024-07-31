@@ -8,6 +8,7 @@
 import Foundation
 import FamilyControls
 import ManagedSettings
+import DeviceActivity
 import Combine
 
 struct DailyLimit: Identifiable, Codable {
@@ -113,5 +114,38 @@ class DailyLimitsViewModel: ObservableObject {
         unlockApps(for: limit.selection)
         saveDailyLimits()
         print("Deleted limit for \(limit.selection.applicationTokens)")
+    }
+
+    func setupDeviceActivitySchedule() {
+        let center = DeviceActivityCenter()
+
+        for limit in dailyLimits {
+            let activity = DeviceActivityName(limit.id.uuidString)
+            let eventName = DeviceActivityEvent.Name("ScreenTimeMonitoring")
+            
+            let event = DeviceActivityEvent(
+                applications: limit.selection.applicationTokens,
+                categories: limit.selection.categoryTokens,
+                webDomains: limit.selection.webDomainTokens,
+                threshold: DateComponents(hour: limit.hours, minute: limit.minutes)
+            )
+            
+            let schedule = DeviceActivitySchedule(
+                intervalStart: DateComponents(hour: 0, minute: 0, second: 0),
+                intervalEnd: DateComponents(hour: 23, minute: 59, second: 59),
+                repeats: true
+            )
+            
+            do {
+                try center.startMonitoring(
+                    activity,
+                    during: schedule,
+                    events: [eventName: event]
+                )
+                print("Started monitoring for \(activity.rawValue) with event \(eventName.rawValue)")
+            } catch {
+                print("Failed to start monitoring for \(activity.rawValue): \(error.localizedDescription)")
+            }
+        }
     }
 }
