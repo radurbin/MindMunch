@@ -12,19 +12,19 @@ struct QuizView: View {
     @State private var newStudySetURL: String = ""
     @State private var newStudySetName: String = ""
     @State private var showAddStudySetSheet = false
-    
+
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [Color(hex: "#0B132B"), Color(hex: "#1C2541")]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
-            
+
             ScrollView {
                 VStack {
                     Text("Study Sets")
                         .font(.largeTitle)
                         .foregroundColor(.white)
                         .padding(.top)
-                    
+
                     HStack {
                         Spacer()
                         Button(action: {
@@ -37,32 +37,23 @@ struct QuizView: View {
                         }
                     }
                     .padding(.horizontal)
-                    
-                    ForEach(viewModel.studySets) { studySet in
-                        VStack {
-                            HStack {
-                                Text(studySet.name)
-                                    .foregroundColor(.white)
-                                    .padding()
-                                Spacer()
-                                if viewModel.activeStudySet?.id == studySet.id {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(.green)
-                                        .padding()
+
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                        ForEach(viewModel.studySets) { studySet in
+                            StudySetBoxView(
+                                studySet: studySet,
+                                isActive: viewModel.activeStudySet?.id == studySet.id,
+                                onSelect: {
+                                    viewModel.setActiveStudySet(studySet)
+                                },
+                                onDelete: {
+                                    viewModel.deleteStudySet(at: viewModel.studySets.firstIndex(where: { $0.id == studySet.id })!)
                                 }
-                            }
-                            .background(RoundedRectangle(cornerRadius: 10).fill(Color(hex: "#1C2541")))
-                            .onTapGesture {
-                                viewModel.setActiveStudySet(studySet)
-                            }
-                            .onLongPressGesture {
-                                viewModel.deleteStudySet(at: viewModel.studySets.firstIndex(where: { $0.id == studySet.id })!)
-                            }
+                            )
                         }
-                        .padding(.horizontal)
-                        .padding(.top, 5)
                     }
-                    
+                    .padding()
+
                     Spacer()
                 }
                 .padding()
@@ -70,7 +61,7 @@ struct QuizView: View {
             .sheet(isPresented: $showAddStudySetSheet) {
                 VStack {
                     AddStudySetAlertView(url: $newStudySetURL, name: $newStudySetName)
-                    
+
                     Button(action: {
                         viewModel.addStudySet(url: newStudySetURL, name: newStudySetName) { success in
                             if !success {
@@ -89,7 +80,7 @@ struct QuizView: View {
                             .cornerRadius(8)
                     }
                     .padding()
-                    
+
                     Button(action: {
                         showAddStudySetSheet = false
                     }) {
@@ -113,6 +104,7 @@ struct QuizView_Previews: PreviewProvider {
         QuizView()
     }
 }
+
 
 extension View {
     func hideKeyboard() {
@@ -159,17 +151,62 @@ struct StudySet: Identifiable, Codable {
 struct AddStudySetAlertView: View {
     @Binding var url: String
     @Binding var name: String
-    
+
     var body: some View {
         VStack {
             TextField("Enter Study Set URL", text: $url)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.vertical, 5)
-            
+
             TextField("Enter Study Set Name", text: $name)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.vertical, 5)
         }
         .padding()
+    }
+}
+
+
+struct StudySetBoxView: View {
+    var studySet: StudySet
+    var isActive: Bool
+    var onSelect: () -> Void
+    var onDelete: () -> Void
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(isActive ? Color.green.opacity(0.3) : Color(hex: "#1C2541"))
+                .frame(height: 150)
+                .shadow(radius: 5)
+            
+            VStack {
+                HStack {
+                    Image("quizlet-logo") // Ensure this image is added to your assets
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .padding(5)
+                    
+                    Spacer()
+                }
+                
+                Spacer()
+                
+                Text(studySet.name)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding(.horizontal)
+                    .padding(.bottom, 5)
+                
+                Spacer()
+            }
+            .padding()
+            .onTapGesture {
+                onSelect()
+            }
+            .onLongPressGesture {
+                onDelete()
+            }
+        }
     }
 }

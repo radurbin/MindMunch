@@ -10,6 +10,7 @@
 		005D365F2C5AA67700935D67 /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00BE9C342C52B1C600EB3427 /* ManagedSettings.framework */; };
 		005D36622C5AA67700935D67 /* ShieldActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D36612C5AA67700935D67 /* ShieldActionExtension.swift */; };
 		005D36672C5AA67700935D67 /* ShieldActionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 005D365E2C5AA67700935D67 /* ShieldActionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		005D366C2C5BF08500935D67 /* quizlet-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 005D366B2C5BF08400935D67 /* quizlet-logo.png */; };
 		00BE9BC52C4FB8A500EB3427 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC42C4FB8A500EB3427 /* QuizView.swift */; };
 		00BE9BCB2C4FBAB800EB3427 /* QuizletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC82C4FB9E300EB3427 /* QuizletViewModel.swift */; };
 		00BE9BCC2C4FBAC200EB3427 /* Flashcard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC62C4FB9CD00EB3427 /* Flashcard.swift */; };
@@ -101,6 +102,7 @@
 		005D36612C5AA67700935D67 /* ShieldActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldActionExtension.swift; sourceTree = "<group>"; };
 		005D36632C5AA67700935D67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005D36642C5AA67700935D67 /* ShieldActionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShieldActionExtension.entitlements; sourceTree = "<group>"; };
+		005D366B2C5BF08400935D67 /* quizlet-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "quizlet-logo.png"; path = "../../../quizlet-logo.png"; sourceTree = "<group>"; };
 		00BE9BC42C4FB8A500EB3427 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		00BE9BC62C4FB9CD00EB3427 /* Flashcard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flashcard.swift; sourceTree = "<group>"; };
 		00BE9BC82C4FB9E300EB3427 /* QuizletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizletViewModel.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				C5F7A7C12A802741009DECF9 /* Views */,
 				C5F7A7BE2A8023D8009DECF9 /* DeviceActivityApp.entitlements */,
 				C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */,
+				005D366B2C5BF08400935D67 /* quizlet-logo.png */,
 				C5F7A79E2A80209E009DECF9 /* ContentView.swift */,
 				C5F7A7A02A80209E009DECF9 /* Assets.xcassets */,
 				C5F7A7A22A80209E009DECF9 /* Preview Content */,
@@ -470,6 +473,7 @@
 			files = (
 				C5F7A7A42A80209E009DECF9 /* Preview Assets.xcassets in Resources */,
 				C5F7A7A12A80209E009DECF9 /* Assets.xcassets in Resources */,
+				005D366C2C5BF08500935D67 /* quizlet-logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
