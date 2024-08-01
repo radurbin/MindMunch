@@ -60,6 +60,10 @@ struct MainTabView: View {
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UNUserNotificationCenter.current().delegate = self
+        
+        // Request notification permissions
+        NotificationManager.shared.requestAuthorization()
+        
         BackgroundTaskManager.shared.registerBackgroundTasks()
         return true
     }
@@ -81,3 +85,4 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         completionHandler()
     }
 }
+
