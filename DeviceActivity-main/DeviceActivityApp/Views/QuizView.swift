@@ -185,6 +185,12 @@ struct StudySetBoxView: View {
                 .fill(Color.white)
                 .frame(height: 150)
                 .shadow(radius: 5)
+                .onTapGesture {
+                    onSelect()
+                }
+                .onLongPressGesture {
+                    onDelete()
+                }
             
             VStack {
                 HStack {
@@ -214,12 +220,6 @@ struct StudySetBoxView: View {
                 Spacer()
             }
             .padding()
-            .onTapGesture {
-                onSelect()
-            }
-            .onLongPressGesture {
-                onDelete()
-            }
         }
     }
 }

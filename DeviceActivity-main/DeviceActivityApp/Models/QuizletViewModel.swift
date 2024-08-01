@@ -152,7 +152,9 @@ class QuizletViewModel: ObservableObject {
             return Flashcard(id: item.id, term: term, definition: definition)
         }
         self.flashcards.append(contentsOf: newFlashcards)
+        print("Processed Flashcards: \(self.flashcards.count)") // Debug print
     }
+
 
     private func saveFlashcardsToUserDefaults() {
         if let encodedData = try? JSONEncoder().encode(self.flashcards) {
