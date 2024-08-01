@@ -21,6 +21,7 @@ struct QuizView: View {
             ScrollView {
                 VStack {
                     Text("My Munches")
+                        .bold()
                         .font(.largeTitle)
                         .foregroundColor(.white)
                         .padding(.top)
