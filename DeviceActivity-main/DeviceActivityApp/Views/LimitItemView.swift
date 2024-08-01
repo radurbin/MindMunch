@@ -148,6 +148,13 @@ struct QuizPopupView: View {
                 .edgesIgnoringSafeArea(.all)
 
             VStack {
+                Image("logo") // Ensure this matches the name of your image asset
+                                    .resizable()
+//                                    .scaledToFit()
+                                    .frame(width: 300, height: 300) // Adjust the size as needed
+                                    .padding(.bottom, -120)
+                                    .padding(.top, -130)
+                
                 if let question = quizViewModel.currentQuestion {
                     Text(question.term)
                         .padding(.top, 5)
