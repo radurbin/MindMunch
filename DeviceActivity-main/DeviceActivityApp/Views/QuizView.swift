@@ -5,103 +5,104 @@
 //  Created by Riley Durbin on 7/23/24.
 //
 
-// QuizView.swift
 import SwiftUI
-
-struct StudySet: Identifiable, Codable {
-    let id: UUID
-    let name: String
-    let url: String
-}
 
 struct QuizView: View {
     @StateObject private var viewModel = QuizletViewModel()
-    @State private var newStudySetName = ""
     @State private var newStudySetURL = ""
+    @State private var newStudySetName = ""
     @State private var isAddingStudySet = false
 
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [Color(hex: "#0B132B"), Color(hex: "#1C2541")]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
-            
+
             ScrollView {
                 VStack {
-                    Button(action: {
-                        isAddingStudySet = true
-                    }) {
-                        HStack {
+                    if isAddingStudySet {
+                        TextField("Study Set Name", text: $newStudySetName)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(8)
+                            .padding(.horizontal)
+                            .foregroundColor(.black)
+                        TextField("Paste Quizlet set URL here", text: $newStudySetURL)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(8)
+                            .padding(.horizontal)
+                            .foregroundColor(.black)
+                        Button(action: {
+                            viewModel.addStudySet(url: newStudySetURL, name: newStudySetName) { success in
+                                if success {
+                                    isAddingStudySet = false
+                                    newStudySetURL = ""
+                                    newStudySetName = ""
+                                } else {
+                                    // Handle error
+                                }
+                            }
+                        }) {
+                            Text("Save Study Set")
+                                .padding()
+                                .background(Color(hex: "#3A506B"))
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                    } else {
+                        Button(action: {
+                            isAddingStudySet = true
+                        }) {
                             Image(systemName: "plus")
-                            Text("Add Study Set")
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .padding()
+                                .background(Color(hex: "#3A506B"))
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                    }
+
+                    ForEach(viewModel.studySets.indices, id: \.self) { index in
+                        let studySet = viewModel.studySets[index]
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(studySet.name)
+                                    .font(.headline)
+                                    .foregroundColor(Color(hex: "#FFFFFF"))
+                                Text(studySet.url)
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(hex: "#FFFFFF"))
+                            }
+                            Spacer()
+                            if viewModel.activeStudySet?.id == studySet.id {
+                                Circle()
+                                    .fill(Color.green)
+                                    .frame(width: 20, height: 20)
+                            }
                         }
                         .padding()
                         .background(Color(hex: "#3A506B"))
-                        .foregroundColor(.white)
                         .cornerRadius(8)
-                    }
-                    .padding()
-
-                    ForEach(viewModel.studySets) { studySet in
-                        StudySetView(studySet: studySet, isActive: viewModel.activeStudySet?.id == studySet.id) {
+                        .onTapGesture {
                             viewModel.setActiveStudySet(studySet)
-                        } onDelete: {
-                            viewModel.deleteStudySet(studySet)
+                        }
+                        .onLongPressGesture {
+                            viewModel.deleteStudySet(at: index)
                         }
                     }
-
+                    
                     if let error = viewModel.errorMessage {
                         Text(error)
                             .foregroundColor(.red)
                             .padding()
                     }
-                    
-                    Spacer()
                 }
                 .padding()
-                .onTapGesture {
-                    self.hideKeyboard()
-                }
-            }
-            .sheet(isPresented: $isAddingStudySet) {
-                VStack {
-                    TextField("Study Set Name", text: $newStudySetName)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(8)
-                        .padding(.horizontal)
-                        .foregroundColor(.black)
-                    
-                    TextField("Paste Quizlet set URL here", text: $newStudySetURL)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(8)
-                        .padding(.horizontal)
-                        .foregroundColor(.black)
-                    
-                    Button(action: {
-                        viewModel.addStudySet(name: newStudySetName, url: newStudySetURL)
-                        newStudySetName = ""
-                        newStudySetURL = ""
-                        isAddingStudySet = false
-                    }) {
-                        Text("Save")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding()
-                    
-                    Button(action: {
-                        isAddingStudySet = false
-                    }) {
-                        Text("Cancel")
-                            .padding()
-                            .background(Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding()
+                .onAppear {
+                    print("Study Sets in UserDefaults: \(UserDefaults.standard.array(forKey: "studySets") ?? [])")
+                    print("Active Study Set: \(UserDefaults.standard.dictionary(forKey: "activeStudySet") ?? [:])")
                 }
             }
         }
@@ -112,6 +113,12 @@ struct QuizView: View {
 struct QuizView_Previews: PreviewProvider {
     static var previews: some View {
         QuizView()
+    }
+}
+
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
@@ -143,8 +150,9 @@ struct StudySetView: View {
     }
 }
 
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
+struct StudySet: Codable, Identifiable {
+    var id = UUID()
+    var name: String
+    var url: String
+    var flashcards: [Flashcard]
 }

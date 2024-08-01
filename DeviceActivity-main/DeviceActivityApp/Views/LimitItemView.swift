@@ -20,12 +20,12 @@ struct LimitItemView: View {
         VStack(alignment: .leading) {
             // Display the app tokens in a list
             VStack(alignment: .leading, spacing: 5) {
-                           ForEach(Array(limit.selection.applicationTokens), id: \.self) { appToken in
-                               Label(appToken) // Display the app token
-                                   .font(.headline)
-                                   .foregroundColor(Color(hex: "#FFFFFF"))
-                           }
-                       }
+                ForEach(Array(limit.selection.applicationTokens), id: \.self) { appToken in
+                    Label(appToken) // Display the app token
+                        .font(.headline)
+                        .foregroundColor(Color(hex: "#FFFFFF"))
+                }
+            }
             
             VStack(alignment: .leading) {
                 Text("Limit: \(limit.hours)h \(limit.minutes)m")
@@ -199,7 +199,7 @@ struct QuizPopupView: View {
                         }
                         .padding(.top, 5)
                     }
-                    if result.starts(with: "Correct") {
+                    if result.starts(with:"Correct") {
                         Button(action: {
                             if quizViewModel.correctAnswersInSession >= 3 {
                                 showQuestion = false
