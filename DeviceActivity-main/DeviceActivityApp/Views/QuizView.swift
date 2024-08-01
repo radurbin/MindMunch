@@ -19,13 +19,20 @@ struct QuizView: View {
                 .edgesIgnoringSafeArea(.all)
 
             ScrollView {
-                VStack {
-                    Text("My Munches")
-                        .bold()
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                        .padding(.top)
-
+                            VStack(alignment: .leading) {
+                                HStack(alignment: .center, spacing: -25) {
+                                    Image("brain-only")
+                                        .resizable()
+                                        .frame(width: 110, height: 110)
+                                    
+                                    Text("My Munches")
+                                        .bold()
+                                        .font(.largeTitle)
+                                        .foregroundColor(.white)
+                                }
+//                                .padding(.top)
+                                .padding(.leading)
+                                
                     HStack {
                         Spacer()
                         Button(action: {
@@ -37,7 +44,7 @@ struct QuizView: View {
                                 .foregroundColor(.white)
                         }
                     }
-                    .padding(.horizontal)
+//                    .padding(.horizontal)
 
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                         ForEach(viewModel.studySets) { studySet in
