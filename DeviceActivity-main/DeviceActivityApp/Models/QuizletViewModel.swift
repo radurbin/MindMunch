@@ -5,7 +5,9 @@
 //  Created by Riley Durbin on 7/23/24.
 //
 
+// QuizletViewModel.swift
 import Foundation
+import Combine
 
 class QuizletViewModel: ObservableObject {
     @Published var flashcards: [Flashcard] = []
@@ -18,35 +20,32 @@ class QuizletViewModel: ObservableObject {
     @Published var correctAnswers = 0
     @Published var incorrectAnswers = 0
     @Published var correctAnswersInSession = 0 // Track correct answers in the current session
-    @Published var quizletURL: String {
-        didSet {
-            saveURLToUserDefaults()
-            fetchFlashcardsIfNeeded()
-        }
-    }
+    @Published var studySets: [StudySet] = []
+    @Published var activeStudySet: StudySet?
     @Published var questionAnswered = false
     
     private let baseUrl = "https://quizlet.com/webapi/3.4/studiable-item-documents"
-    private var setId = ""
+    private let studySetsKey = "studySets"
+    private let activeStudySetKey = "activeStudySet"
     private let userDefaultsKey = "quizletFlashcards"
     private let lastUpdateKey = "lastUpdateTimestamp"
     
     init() {
-        self.quizletURL = UserDefaults.standard.string(forKey: "quizletURL") ?? ""
-        if !quizletURL.isEmpty {
-            fetchFlashcardsIfNeeded()
-        }
+        loadStudySets()
+        loadActiveStudySet()
     }
-    
-    private func fetchFlashcardsIfNeeded() {
-        if let savedData = UserDefaults.standard.data(forKey: userDefaultsKey) {
+
+    func fetchFlashcardsIfNeeded() {
+        guard let activeStudySet = activeStudySet else { return }
+
+        if let savedData = UserDefaults.standard.data(forKey: userDefaultsKey + activeStudySet.id.uuidString) {
             if let decodedFlashcards = try? JSONDecoder().decode([Flashcard].self, from: savedData) {
                 self.flashcards = decodedFlashcards
                 prepareQuestion()
                 return
             }
         }
-        fetchFlashcards(from: quizletURL)
+        fetchFlashcards(from: activeStudySet.url)
     }
     
     func fetchFlashcards(from url: String) {
@@ -54,19 +53,17 @@ class QuizletViewModel: ObservableObject {
             self.errorMessage = "Invalid URL"
             return
         }
-        self.setId = extractedId
-        saveURLToUserDefaults() // Save URL to UserDefaults
-        
+        let setId = extractedId
         isLoading = true
         self.flashcards = [] // Clear existing flashcards before fetching new ones
         let initialUrlString = "\(baseUrl)?filters[studiableContainerId]=\(setId)&filters[studiableContainerType]=1&perPage=500&page=1"
         
         print("Initial API URL: \(initialUrlString)")
         
-        fetchPage(urlString: initialUrlString)
+        fetchPage(urlString: initialUrlString, setId: setId)
     }
     
-    private func fetchPage(urlString: String) {
+    private func fetchPage(urlString: String, setId: String) {
         guard let url = URL(string: urlString) else {
             self.errorMessage = "Invalid URL"
             self.isLoading = false
@@ -101,8 +98,8 @@ class QuizletViewModel: ObservableObject {
                     self.processFlashcards(apiResponse)
                     if let paging = apiResponse.responses.first?.paging, let token = paging.token {
                         if paging.total > paging.perPage * paging.page {
-                            let nextPageUrl = "\(self.baseUrl)?filters[studiableContainerId]=\(self.setId)&filters[studiableContainerType]=1&perPage=\(paging.perPage)&page=\(paging.page + 1)&pagingToken=\(token)"
-                            self.fetchPage(urlString: nextPageUrl)
+                            let nextPageUrl = "\(self.baseUrl)?filters[studiableContainerId]=\(setId)&filters[studiableContainerType]=1&perPage=\(paging.perPage)&page=\(paging.page + 1)&pagingToken=\(token)"
+                            self.fetchPage(urlString: nextPageUrl, setId: setId)
                         } else {
                             self.isLoading = false
                             self.prepareQuestion()
@@ -111,7 +108,7 @@ class QuizletViewModel: ObservableObject {
                         self.isLoading = false
                         self.prepareQuestion()
                     }
-                    self.saveFlashcardsToUserDefaults()
+                    self.saveFlashcardsToUserDefaults(for: setId)
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -149,10 +146,10 @@ class QuizletViewModel: ObservableObject {
         self.flashcards.append(contentsOf: newFlashcards)
     }
     
-    private func saveFlashcardsToUserDefaults() {
+    private func saveFlashcardsToUserDefaults(for setId: String) {
         if let encodedData = try? JSONEncoder().encode(self.flashcards) {
-            UserDefaults.standard.set(encodedData, forKey: userDefaultsKey)
-            UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: lastUpdateKey)
+            UserDefaults.standard.set(encodedData, forKey: userDefaultsKey + setId)
+            UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: lastUpdateKey + setId)
         }
     }
     
@@ -186,8 +183,57 @@ class QuizletViewModel: ObservableObject {
         
         questionAnswered = true
     }
-    
-    private func saveURLToUserDefaults() {
-        UserDefaults.standard.set(quizletURL, forKey: "quizletURL")
+
+    func addStudySet(name: String, url: String) {
+        guard studySets.count < 3 else {
+            self.errorMessage = "You can only save up to 3 study sets."
+            return
+        }
+        let newStudySet = StudySet(id: UUID(), name: name, url: url)
+        studySets.append(newStudySet)
+        saveStudySets()
+        setActiveStudySet(newStudySet)
+    }
+
+    func deleteStudySet(_ studySet: StudySet) {
+        studySets.removeAll { $0.id == studySet.id }
+        if activeStudySet?.id == studySet.id {
+            activeStudySet = nil
+            flashcards = []
+        }
+        saveStudySets()
+    }
+
+    func setActiveStudySet(_ studySet: StudySet) {
+        activeStudySet = studySet
+        fetchFlashcardsIfNeeded()
+        saveActiveStudySet()
+    }
+
+    private func saveStudySets() {
+        if let encodedData = try? JSONEncoder().encode(studySets) {
+            UserDefaults.standard.set(encodedData, forKey: studySetsKey)
+        }
+    }
+
+    private func loadStudySets() {
+        if let savedData = UserDefaults.standard.data(forKey: studySetsKey),
+           let decodedStudySets = try? JSONDecoder().decode([StudySet].self, from: savedData) {
+            self.studySets = decodedStudySets
+        }
+    }
+
+    private func saveActiveStudySet() {
+        if let activeStudySet = activeStudySet, let encodedData = try? JSONEncoder().encode(activeStudySet) {
+            UserDefaults.standard.set(encodedData, forKey: activeStudySetKey)
+        }
+    }
+
+    private func loadActiveStudySet() {
+        if let savedData = UserDefaults.standard.data(forKey: activeStudySetKey),
+           let decodedStudySet = try? JSONDecoder().decode(StudySet.self, from: savedData) {
+            self.activeStudySet = decodedStudySet
+            fetchFlashcardsIfNeeded()
+        }
     }
 }
