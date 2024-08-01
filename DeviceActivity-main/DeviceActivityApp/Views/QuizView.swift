@@ -105,13 +105,11 @@ struct QuizView_Previews: PreviewProvider {
     }
 }
 
-
 extension View {
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
-
 
 struct StudySetView: View {
     var studySet: StudySet
@@ -166,7 +164,6 @@ struct AddStudySetAlertView: View {
     }
 }
 
-
 struct StudySetBoxView: View {
     var studySet: StudySet
     var isActive: Bool
@@ -176,7 +173,7 @@ struct StudySetBoxView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .fill(isActive ? Color.green.opacity(0.3) : Color(hex: "#1C2541"))
+                .fill(Color.white)
                 .frame(height: 150)
                 .shadow(radius: 5)
             
@@ -194,7 +191,7 @@ struct StudySetBoxView: View {
                 
                 Text(studySet.name)
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(hex: "#1C2541"))
                     .padding(.horizontal)
                     .padding(.bottom, 5)
                 
@@ -208,5 +205,9 @@ struct StudySetBoxView: View {
                 onDelete()
             }
         }
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(isActive ? Color.green : Color.clear, lineWidth: 2)
+        )
     }
 }
