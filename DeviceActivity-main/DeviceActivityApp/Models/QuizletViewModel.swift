@@ -40,6 +40,7 @@ class QuizletViewModel: ObservableObject {
         }
         loadStudySets()
         loadActiveStudySet()
+        printStudySets()
     }
 
     private func fetchFlashcardsIfNeeded() {
@@ -161,7 +162,10 @@ class QuizletViewModel: ObservableObject {
     }
 
     func prepareQuestion() {
-        guard let activeStudySet = activeStudySet, !activeStudySet.flashcards.isEmpty else { return }
+        guard let activeStudySet = activeStudySet, !activeStudySet.flashcards.isEmpty else {
+            print("No active study set or flashcards are empty.")
+            return
+        }
         
         currentQuestion = activeStudySet.flashcards.randomElement()
         if let correctAnswer = currentQuestion?.definition {
@@ -174,6 +178,9 @@ class QuizletViewModel: ObservableObject {
             self.options = options.shuffled()
             self.answerResult = nil
             self.questionAnswered = false
+            print("Prepared question: \(currentQuestion?.term ?? "No term") with options: \(self.options)")
+        } else {
+            print("Failed to prepare question: No correct answer found")
         }
     }
 
@@ -209,6 +216,7 @@ class QuizletViewModel: ObservableObject {
             let newStudySet = StudySet(name: name, url: url, flashcards: self.flashcards)
             self.studySets.append(newStudySet)
             self.saveStudySetsToUserDefaults()
+            self.printStudySets()
             completion(true)
         }
     }
@@ -217,11 +225,13 @@ class QuizletViewModel: ObservableObject {
         activeStudySet = studySet
         saveActiveStudySetToUserDefaults()
         prepareQuestion()
+        print("Active Study Set: \(activeStudySet?.name ?? "None") with \(activeStudySet?.flashcards.count ?? 0) flashcards")
     }
 
     func deleteStudySet(at index: Int) {
         studySets.remove(at: index)
         saveStudySetsToUserDefaults()
+        printStudySets()
     }
 
     private func saveStudySetsToUserDefaults() {
@@ -248,6 +258,17 @@ class QuizletViewModel: ObservableObject {
         if let savedData = UserDefaults.standard.data(forKey: "activeStudySet"),
            let decodedStudySet = try? JSONDecoder().decode(StudySet.self, from: savedData) {
             self.activeStudySet = decodedStudySet
+            print("Loaded active study set: \(activeStudySet?.name ?? "None")")
+        } else {
+            print("No active study set found in UserDefaults.")
         }
+    }
+
+    private func printStudySets() {
+        let studySetsData = UserDefaults.standard.data(forKey: "studySets")
+        print("Study Sets in UserDefaults: \(studySetsData?.count ?? 0) bytes")
+        
+        let activeStudySetData = UserDefaults.standard.data(forKey: "activeStudySet")
+        print("Active Study Set: \(activeStudySetData?.count ?? 0) bytes")
     }
 }

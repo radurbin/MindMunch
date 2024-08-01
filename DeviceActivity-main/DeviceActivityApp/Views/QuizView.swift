@@ -9,101 +9,99 @@ import SwiftUI
 
 struct QuizView: View {
     @StateObject private var viewModel = QuizletViewModel()
-    @State private var newStudySetURL = ""
-    @State private var newStudySetName = ""
-    @State private var isAddingStudySet = false
-
+    @State private var newStudySetURL: String = ""
+    @State private var newStudySetName: String = ""
+    @State private var showAddStudySetSheet = false
+    
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [Color(hex: "#0B132B"), Color(hex: "#1C2541")]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
-
+            
             ScrollView {
                 VStack {
-                    if isAddingStudySet {
-                        TextField("Study Set Name", text: $newStudySetName)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .padding(.horizontal)
-                            .foregroundColor(.black)
-                        TextField("Paste Quizlet set URL here", text: $newStudySetURL)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .padding(.horizontal)
-                            .foregroundColor(.black)
+                    Text("Study Sets")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                        .padding(.top)
+                    
+                    HStack {
+                        Spacer()
                         Button(action: {
-                            viewModel.addStudySet(url: newStudySetURL, name: newStudySetName) { success in
-                                if success {
-                                    isAddingStudySet = false
-                                    newStudySetURL = ""
-                                    newStudySetName = ""
-                                } else {
-                                    // Handle error
-                                }
-                            }
+                            showAddStudySetSheet = true
                         }) {
-                            Text("Save Study Set")
-                                .padding()
-                                .background(Color(hex: "#3A506B"))
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
-                    } else {
-                        Button(action: {
-                            isAddingStudySet = true
-                        }) {
-                            Image(systemName: "plus")
+                            Image(systemName: "plus.circle.fill")
                                 .resizable()
                                 .frame(width: 40, height: 40)
-                                .padding()
-                                .background(Color(hex: "#3A506B"))
                                 .foregroundColor(.white)
-                                .cornerRadius(8)
                         }
                     }
-
-                    ForEach(viewModel.studySets.indices, id: \.self) { index in
-                        let studySet = viewModel.studySets[index]
-                        HStack {
-                            VStack(alignment: .leading) {
+                    .padding(.horizontal)
+                    
+                    ForEach(viewModel.studySets) { studySet in
+                        VStack {
+                            HStack {
                                 Text(studySet.name)
-                                    .font(.headline)
-                                    .foregroundColor(Color(hex: "#FFFFFF"))
-                                Text(studySet.url)
-                                    .font(.subheadline)
-                                    .foregroundColor(Color(hex: "#FFFFFF"))
+                                    .foregroundColor(.white)
+                                    .padding()
+                                Spacer()
+                                if viewModel.activeStudySet?.id == studySet.id {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(.green)
+                                        .padding()
+                                }
                             }
-                            Spacer()
-                            if viewModel.activeStudySet?.id == studySet.id {
-                                Circle()
-                                    .fill(Color.green)
-                                    .frame(width: 20, height: 20)
+                            .background(RoundedRectangle(cornerRadius: 10).fill(Color(hex: "#1C2541")))
+                            .onTapGesture {
+                                viewModel.setActiveStudySet(studySet)
+                            }
+                            .onLongPressGesture {
+                                viewModel.deleteStudySet(at: viewModel.studySets.firstIndex(where: { $0.id == studySet.id })!)
                             }
                         }
-                        .padding()
-                        .background(Color(hex: "#3A506B"))
-                        .cornerRadius(8)
-                        .onTapGesture {
-                            viewModel.setActiveStudySet(studySet)
-                        }
-                        .onLongPressGesture {
-                            viewModel.deleteStudySet(at: index)
-                        }
+                        .padding(.horizontal)
+                        .padding(.top, 5)
                     }
                     
-                    if let error = viewModel.errorMessage {
-                        Text(error)
-                            .foregroundColor(.red)
-                            .padding()
-                    }
+                    Spacer()
                 }
                 .padding()
-                .onAppear {
-                    print("Study Sets in UserDefaults: \(UserDefaults.standard.array(forKey: "studySets") ?? [])")
-                    print("Active Study Set: \(UserDefaults.standard.dictionary(forKey: "activeStudySet") ?? [:])")
+            }
+            .sheet(isPresented: $showAddStudySetSheet) {
+                VStack {
+                    AddStudySetAlertView(url: $newStudySetURL, name: $newStudySetName)
+                    
+                    Button(action: {
+                        viewModel.addStudySet(url: newStudySetURL, name: newStudySetName) { success in
+                            if !success {
+                                print("Failed to add study set")
+                            } else {
+                                showAddStudySetSheet = false
+                                newStudySetURL = ""
+                                newStudySetName = ""
+                            }
+                        }
+                    }) {
+                        Text("Save")
+                            .padding()
+                            .background(Color(hex: "#3A506B"))
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    .padding()
+                    
+                    Button(action: {
+                        showAddStudySetSheet = false
+                    }) {
+                        Text("Cancel")
+                            .padding()
+                            .background(Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    .padding(.bottom)
                 }
+                .padding()
             }
         }
         .environment(\.colorScheme, .dark)
@@ -122,12 +120,13 @@ extension View {
     }
 }
 
+
 struct StudySetView: View {
     var studySet: StudySet
     var isActive: Bool
     var onSelect: () -> Void
     var onDelete: () -> Void
-
+    
     var body: some View {
         HStack {
             Text(studySet.name)
@@ -150,9 +149,27 @@ struct StudySetView: View {
     }
 }
 
-struct StudySet: Codable, Identifiable {
+struct StudySet: Identifiable, Codable {
     var id = UUID()
     var name: String
     var url: String
-    var flashcards: [Flashcard]
+    var flashcards: [Flashcard] = []
+}
+
+struct AddStudySetAlertView: View {
+    @Binding var url: String
+    @Binding var name: String
+    
+    var body: some View {
+        VStack {
+            TextField("Enter Study Set URL", text: $url)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.vertical, 5)
+            
+            TextField("Enter Study Set Name", text: $name)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.vertical, 5)
+        }
+        .padding()
+    }
 }
