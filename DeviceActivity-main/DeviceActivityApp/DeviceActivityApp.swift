@@ -46,7 +46,7 @@ struct MainTabView: View {
                 }
             QuizView()
                 .tabItem {
-                    Label("Quiz", systemImage: "questionmark.circle")
+                    Label("Munches", systemImage: "questionmark.circle")
                 }
             LimitsView()
                 .tabItem {
