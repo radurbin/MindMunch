@@ -111,6 +111,32 @@ extension View {
     }
 }
 
+
+struct StudySet: Identifiable, Codable {
+    var id = UUID()
+    var name: String
+    var url: String
+    var flashcards: [Flashcard] = []
+}
+
+struct AddStudySetAlertView: View {
+    @Binding var url: String
+    @Binding var name: String
+    
+    var body: some View {
+        VStack {
+            TextField("Enter Study Set URL", text: $url)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.vertical, 5)
+            
+            TextField("Enter Study Set Name", text: $name)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.vertical, 5)
+        }
+        .padding()
+    }
+}
+
 struct StudySetView: View {
     var studySet: StudySet
     var isActive: Bool
@@ -139,31 +165,6 @@ struct StudySetView: View {
     }
 }
 
-struct StudySet: Identifiable, Codable {
-    var id = UUID()
-    var name: String
-    var url: String
-    var flashcards: [Flashcard] = []
-}
-
-struct AddStudySetAlertView: View {
-    @Binding var url: String
-    @Binding var name: String
-
-    var body: some View {
-        VStack {
-            TextField("Enter Study Set URL", text: $url)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.vertical, 5)
-
-            TextField("Enter Study Set Name", text: $name)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.vertical, 5)
-        }
-        .padding()
-    }
-}
-
 struct StudySetBoxView: View {
     var studySet: StudySet
     var isActive: Bool
@@ -185,6 +186,13 @@ struct StudySetBoxView: View {
                         .padding(5)
                     
                     Spacer()
+                    
+                    if isActive {
+                        Circle()
+                            .fill(Color.green)
+                            .frame(width: 15, height: 15)
+                            .padding(5)
+                    }
                 }
                 
                 Spacer()
@@ -205,9 +213,5 @@ struct StudySetBoxView: View {
                 onDelete()
             }
         }
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(isActive ? Color.green : Color.clear, lineWidth: 2)
-        )
     }
 }
