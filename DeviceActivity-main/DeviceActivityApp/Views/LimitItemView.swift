@@ -26,7 +26,7 @@ struct LimitItemView: View {
                         .foregroundColor(Color(hex: "#FFFFFF"))
                 }
             }
-            
+
             VStack(alignment: .leading) {
                 Text("Limit: \(limit.hours)h \(limit.minutes)m")
                     .foregroundColor(Color(hex: "#6C757D"))
@@ -35,7 +35,7 @@ struct LimitItemView: View {
             }
             .padding(.leading, 4)
             .padding(.bottom, 10)
-            
+
             HStack {
                 Spacer()
                 if !(quizViewModel.correctAnswersInSession >= 3 && confirmLimitID == limit.id) {
@@ -97,7 +97,7 @@ struct LimitItemView: View {
                         }
                         .padding(.top, 5)
                     }
-                    if result.starts(with: "Correct") {
+                    if result.starts(with:"Correct") {
                         Button(action: {
                             if quizViewModel.correctAnswersInSession >= 3 {
                                 showQuestion = false
@@ -129,6 +129,11 @@ struct LimitItemView: View {
                 .shadow(radius: 5)
         )
         .environment(\.colorScheme, .dark)
+        .onAppear {
+            quizViewModel.loadActiveStudySet()
+            quizViewModel.prepareQuestion()
+            print("Active study set loaded in LimitItemView: \(quizViewModel.activeStudySet?.name ?? "None")")
+        }
     }
 }
 

@@ -162,10 +162,8 @@ class QuizletViewModel: ObservableObject {
     }
 
     func prepareQuestion() {
-        guard let activeStudySet = activeStudySet, !activeStudySet.flashcards.isEmpty else {
-            print("No active study set or flashcards are empty.")
-            return
-        }
+        loadActiveStudySet()
+        guard let activeStudySet = activeStudySet, !activeStudySet.flashcards.isEmpty else { return }
         
         currentQuestion = activeStudySet.flashcards.randomElement()
         if let correctAnswer = currentQuestion?.definition {
@@ -254,7 +252,7 @@ class QuizletViewModel: ObservableObject {
         }
     }
 
-    private func loadActiveStudySet() {
+    func loadActiveStudySet() {
         if let savedData = UserDefaults.standard.data(forKey: "activeStudySet"),
            let decodedStudySet = try? JSONDecoder().decode(StudySet.self, from: savedData) {
             self.activeStudySet = decodedStudySet
