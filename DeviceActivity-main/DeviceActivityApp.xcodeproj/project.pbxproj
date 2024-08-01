@@ -10,6 +10,7 @@
 		005D365F2C5AA67700935D67 /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00BE9C342C52B1C600EB3427 /* ManagedSettings.framework */; };
 		005D36622C5AA67700935D67 /* ShieldActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D36612C5AA67700935D67 /* ShieldActionExtension.swift */; };
 		005D36672C5AA67700935D67 /* ShieldActionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 005D365E2C5AA67700935D67 /* ShieldActionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		005D366D2C5BFEBA00935D67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5F7A7A02A80209E009DECF9 /* Assets.xcassets */; };
 		00BE9BC52C4FB8A500EB3427 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC42C4FB8A500EB3427 /* QuizView.swift */; };
 		00BE9BCB2C4FBAB800EB3427 /* QuizletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC82C4FB9E300EB3427 /* QuizletViewModel.swift */; };
 		00BE9BCC2C4FBAC200EB3427 /* Flashcard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9BC62C4FB9CD00EB3427 /* Flashcard.swift */; };
@@ -477,6 +478,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				005D366D2C5BFEBA00935D67 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

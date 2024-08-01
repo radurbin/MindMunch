@@ -14,14 +14,27 @@ struct ActivitiesView: View {
     
     var body: some View {
         VStack {
-            Spacer(minLength: 50)
-            
-            Text("Usage time: \(formatUsageTime(activities.duration))")
-                .bold()
-                .font(.title)
-                .foregroundColor(Color(hex: "#FFFFFF"))
-                .padding()
-            
+                    // Header with logo
+                    GeometryReader { geometry in
+                        VStack {
+                            Image("logo-with-sub")
+                                .resizable()
+//                                .scaledToFit()
+                                .frame(width: 350, height: 350)
+                        }
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.4)
+                        .background(Color(hex: "#0B132B"))
+                    }
+                    .frame(height: 35)
+                    .padding(.top, 10)
+                    .padding(.bottom, 10)// Adjust the height as needed
+
+                    Text("Usage time: \(formatUsageTime(activities.duration))")
+                        .bold()
+                        .font(.title)
+                        .foregroundColor(Color(hex: "#FFFFFF"))
+                        .padding(.bottom, 10)
+
             List(filteredAndSortedApps(activities.apps)) { app in
                 ListItem(app: app)
                     .listRowBackground(Color.clear)
