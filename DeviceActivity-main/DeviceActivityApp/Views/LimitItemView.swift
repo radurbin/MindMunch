@@ -137,7 +137,6 @@ struct LimitItemView: View {
     }
 }
 
-
 struct QuizPopupView: View {
     @StateObject var quizViewModel: QuizletViewModel
     @Binding var isShowingQuiz: Bool
@@ -153,27 +152,34 @@ struct QuizPopupView: View {
                     Text(question.term)
                         .padding(.top, 5)
                         .foregroundColor(Color(hex: "#FFFFFF"))
+                        .font(.headline)
+                    
                     VStack {
-                        ForEach(quizViewModel.options.indices, id: \.self) { index in
-                            let option = quizViewModel.options[index]
-                            Button(action: {
-                                if quizViewModel.questionAnswered {
-                                    return
+                        ForEach(quizViewModel.options.chunked(into: 2), id: \.self) { rowOptions in
+                            HStack {
+                                ForEach(rowOptions, id: \.self) { option in
+                                    Button(action: {
+                                        if quizViewModel.questionAnswered {
+                                            return
+                                        }
+                                        print("Selected answer: \(option)") // Log the selected answer
+                                        quizViewModel.checkAnswer(option)
+                                        if quizViewModel.answerResult?.starts(with: "Correct") == true {
+                                            quizViewModel.correctAnswersInSession += 1
+                                        }
+                                    }) {
+                                        Text(option)
+                                            .padding()
+                                            .frame(maxWidth: .infinity, maxHeight: 200)
+                                            .background(Color.white)
+                                            .cornerRadius(8)
+                                            .foregroundColor(Color(hex: "#0B132B"))
+                                            .font(.body)
+                                            .multilineTextAlignment(.center) // Ensure text is centered
+                                    }
+                                    .padding(5)
                                 }
-                                print("Selected answer: \(option)") // Log the selected answer
-                                quizViewModel.checkAnswer(option)
-                                if quizViewModel.answerResult?.starts(with: "Correct") == true {
-                                    quizViewModel.correctAnswersInSession += 1
-                                }
-                            }) {
-                                Text(option)
-                                    .padding()
-                                    .frame(maxWidth: .infinity) // Make the button full-width
-                                    .background(Color.gray.opacity(0.2))
-                                    .cornerRadius(8)
-                                    .foregroundColor(Color(hex: "#FFFFFF"))
                             }
-                            .padding(.vertical, 2) // Adjust padding to ensure buttons don't overlap
                         }
                     }
                     Text("Correct Answers: \(quizViewModel.correctAnswersInSession)/3")
@@ -204,7 +210,7 @@ struct QuizPopupView: View {
                         }
                         .padding(.top, 5)
                     }
-                    if result.starts(with:"Correct") {
+                    if result.starts(with: "Correct") {
                         Button(action: {
                             if quizViewModel.correctAnswersInSession >= 3 {
                                 showQuestion = false
@@ -231,5 +237,18 @@ struct QuizPopupView: View {
             .shadow(radius: 10)
         }
         .environment(\.colorScheme, .dark)
+    }
+}
+
+extension Collection {
+    func chunked(into size: Int) -> [SubSequence] {
+        var chunks: [SubSequence] = []
+        var startIndex = self.startIndex
+        while startIndex != self.endIndex {
+            let endIndex = index(startIndex, offsetBy: size, limitedBy: self.endIndex) ?? self.endIndex
+            chunks.append(self[startIndex..<endIndex])
+            startIndex = endIndex
+        }
+        return chunks
     }
 }
