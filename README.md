@@ -22,19 +22,19 @@ The Screen Time Manager Study Tool is an innovative iOS application designed to 
 ## Screenshots
 
 ### Screen Time Overview
-![Screen Time Overview](IMG_2725.PNG)
+<img src="IMG_2725.PNG" alt="Screen Time Overview" width="400"/>
 
 ### Flashcard Sets
-![Flashcard Sets](IMG_2726.PNG)
+<img src="IMG_2726.PNG" alt="Flashcard Sets" width="400"/>
 
 ### MunchTime Lock Screen
-![MunchTime Lock Screen](IMG_2727.PNG)
+<img src="IMG_2727.PNG" alt="MunchTime Lock Screen" width="400"/>
 
 ### App Limits
-![App Limits](IMG_2728.PNG)
+<img src="IMG_2728.PNG" alt="App Limits" width="400"/>
 
 ### Flashcard Quiz
-![Flashcard Quiz](IMG_2729.PNG)
+<img src="IMG_2729.PNG" alt="Flashcard Quiz" width="400"/>
 
 ## Getting Started
 
@@ -53,12 +53,8 @@ To get started with the Screen Time Manager Study Tool, follow these steps:
 
 - **Enhanced Flashcard Features:** Add support for images and rich content within flashcards.
 - **Customizable Timer Intervals:** Allow users to set custom intervals for screen time extensions.
-- **Gamification:** Introduce rewards and achievements for consistent study habits and screen time management.
+- **Gamification:** Introduce rewards and achievements for consistent study habits and screen time management, specifically with a focus on community engagement.
 - **Cross-Platform Support:** Explore expanding the app to Android and other platforms.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure your code adheres to the project’s coding standards and passes all tests.
 
 ## License
 
