@@ -24,11 +24,10 @@
 		00BE9C372C52B1C600EB3427 /* ManagedSettingsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00BE9C362C52B1C600EB3427 /* ManagedSettingsUI.framework */; };
 		00BE9C3A2C52B1C600EB3427 /* ShieldConfigurationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9C392C52B1C600EB3427 /* ShieldConfigurationExtension.swift */; };
 		00BE9C3F2C52B1C600EB3427 /* MyReportExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 00BE9C332C52B1C600EB3427 /* MyReportExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		00BE9C462C52B23200EB3427 /* appIcon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 00BE9C452C52B23200EB3427 /* appIcon.jpg */; };
-		00BE9C482C52B51900EB3427 /* munch.png in Resources */ = {isa = PBXBuildFile; fileRef = 00BE9C472C52B51900EB3427 /* munch.png */; };
 		00BE9CAB2C594F9900EB3427 /* LimitItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CAA2C594F9900EB3427 /* LimitItemView.swift */; };
 		00BE9CB72C59924400EB3427 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CB62C59924400EB3427 /* ColorExtensions.swift */; };
 		00BE9CB82C59925D00EB3427 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BE9CB62C59924400EB3427 /* ColorExtensions.swift */; };
+		00FA22492C86C0600083DFB6 /* munch.png in Resources */ = {isa = PBXBuildFile; fileRef = 00FA22482C86C0600083DFB6 /* munch.png */; };
 		C5F7A79D2A80209E009DECF9 /* DeviceActivityApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */; };
 		C5F7A79F2A80209E009DECF9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7A79E2A80209E009DECF9 /* ContentView.swift */; };
 		C5F7A7A12A80209E009DECF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5F7A7A02A80209E009DECF9 /* Assets.xcassets */; };
@@ -118,10 +117,9 @@
 		00BE9C392C52B1C600EB3427 /* ShieldConfigurationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldConfigurationExtension.swift; sourceTree = "<group>"; };
 		00BE9C3B2C52B1C600EB3427 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00BE9C3C2C52B1C600EB3427 /* MyReportExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyReportExtension.entitlements; sourceTree = "<group>"; };
-		00BE9C452C52B23200EB3427 /* appIcon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = appIcon.jpg; path = ../../../appIcon.jpg; sourceTree = "<group>"; };
-		00BE9C472C52B51900EB3427 /* munch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = munch.png; path = ../../../munch.png; sourceTree = "<group>"; };
 		00BE9CAA2C594F9900EB3427 /* LimitItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitItemView.swift; sourceTree = "<group>"; };
 		00BE9CB62C59924400EB3427 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
+		00FA22482C86C0600083DFB6 /* munch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = munch.png; path = ../../../munch.png; sourceTree = "<group>"; };
 		C5F7A7992A80209E009DECF9 /* DeviceActivityApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeviceActivityApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F7A79C2A80209E009DECF9 /* DeviceActivityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityApp.swift; sourceTree = "<group>"; };
 		C5F7A79E2A80209E009DECF9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -204,9 +202,8 @@
 		00BE9C382C52B1C600EB3427 /* MyReportExtension */ = {
 			isa = PBXGroup;
 			children = (
+				00FA22482C86C0600083DFB6 /* munch.png */,
 				00BE9C392C52B1C600EB3427 /* ShieldConfigurationExtension.swift */,
-				00BE9C472C52B51900EB3427 /* munch.png */,
-				00BE9C452C52B23200EB3427 /* appIcon.jpg */,
 				00BE9C3B2C52B1C600EB3427 /* Info.plist */,
 				00BE9C3C2C52B1C600EB3427 /* MyReportExtension.entitlements */,
 			);
@@ -460,8 +457,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00BE9C482C52B51900EB3427 /* munch.png in Resources */,
-				00BE9C462C52B23200EB3427 /* appIcon.jpg in Resources */,
+				00FA22492C86C0600083DFB6 /* munch.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

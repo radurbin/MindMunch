@@ -9,13 +9,16 @@
 import DeviceActivity
 import SwiftUI
 
+// The main entry point for the DeviceActivityReport extension in the app.
 @main
 struct MonitorReport: DeviceActivityReportExtension {
+    
+    // The body of the report extension, defining the scenes that provide device activity reports.
     var body: some DeviceActivityReportScene {
-        // Create a report for each DeviceActivityReport.Context that your app supports.
+        // Creates a report for the total activity, using the TotalActivityReport context.
         TotalActivityReport { activity in
-            TotalActivityView(deviceActivity: activity)
+            TotalActivityView(deviceActivity: activity) // Pass the activity data to the TotalActivityView.
         }
-        // Add more reports here...
+        // Additional reports can be added here by defining more DeviceActivityReportScene instances.
     }
 }
