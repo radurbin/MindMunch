@@ -42,12 +42,11 @@ To get started with the Screen Time Manager Study Tool, follow these steps:
 
 1. Clone the repository to your local machine.
     ```bash
-    git clone https://github.com/radurbin/MindMunch.git
+    git clone https://github.com/radurbin/Screen-Time-Manager-Study-Tool-App.git
     ```
 2. Open the project in Xcode.
 3. Ensure you have the latest version of Xcode and Swift installed.
-4. Configure your Quizlet API credentials in the app to enable flashcard imports.
-5. Build and run the app on your iOS device.
+4. Build and run the app on your iOS device.
 
 ## Roadmap
 
@@ -59,8 +58,3 @@ To get started with the Screen Time Manager Study Tool, follow these steps:
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Special thanks to the 2024 European Innovation Academy for the opportunity to develop this app.
-- Thank you to the global team members who contributed to the project.
